@@ -43,15 +43,13 @@ public class DataProvincia {
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try{
-            stmt = DbConnector.getInstancia().getConn()
-                    .prepareStatement("SELECT * FROM provincias WHERE id = ?");
+            stmt = DbConnector.getInstancia().getConn().prepareStatement(
+                    "SELECT * FROM provincias WHERE id = ?");
             stmt.setInt(1, searchProvincia.getId());
-
             rs = stmt.executeQuery();
             if(rs != null && rs.next()){
-                p = new Provincia();
-                p.setId(rs.getInt("id"));
-                p.setNombre(rs.getString("nombre"));
+                p = new Provincia(rs.getInt("id"),
+                        rs.getString("nombre"));
             }
         }catch (SQLException e) {
             e.printStackTrace();
@@ -72,9 +70,8 @@ public class DataProvincia {
         PreparedStatement stmt= null;
         ResultSet keyResultSet=null;
         try {
-            stmt=DbConnector.getInstancia().getConn().
-                    prepareStatement(
-                            "insert into provincia(nombre) values(?)",
+            stmt=DbConnector.getInstancia().getConn().prepareStatement(
+                            "insert into provincias(nombre) values(?)",
                             PreparedStatement.RETURN_GENERATED_KEYS
                     );
             stmt.setString(1, createProvincia.getNombre());

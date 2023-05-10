@@ -6,6 +6,16 @@ public class Provincia {
 
     public Provincia() {
     }
+    public Provincia(String nombre) {
+        this.nombre = nombre;
+    }
+    public Provincia(int id) {
+        this.id = id;
+    }
+    public Provincia(int id, String nombre) {
+        this.id = id;
+        this.nombre = nombre;
+    }
 
     public int getId() {
         return id;
