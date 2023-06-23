@@ -8,7 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 public class DataCiudad {
-    public LinkedList<Ciudad> getAll() {
+    public LinkedList<Ciudad> getAll() throws SQLException, ClassNotFoundException  {
         LinkedList<Ciudad> ListaCiudades = new LinkedList<Ciudad>();
         ResultSet rs =null;
         Statement stmt = null;
@@ -25,22 +25,21 @@ public class DataCiudad {
                 }
             }
         }catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw e;
         }finally {
             try{
                 if(rs != null) rs.close();
                 if(stmt != null) stmt.close();
                 DbConnector.getInstancia().releaseConn();
             }catch (Exception e) {
-                e.printStackTrace();
+                throw e;
             }
         }
         return ListaCiudades;
     }
 
-    public Ciudad findOne(Ciudad searchCiudad){
-        Ciudad p = null ;
+    public void findOne(Ciudad searchCiudad) throws SQLException, ClassNotFoundException {
+        //Ciudad p = null ;
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try{
@@ -50,27 +49,25 @@ public class DataCiudad {
 
             rs = stmt.executeQuery();
             if(rs != null && rs.next()){
-                p = new Ciudad();
-                p.setId(rs.getInt("id"));
-                p.setNombre(rs.getString("nombre"));
-                p.setIdProvincia(rs.getInt("provincia_id"));
+                //p = new Ciudad();
+                searchCiudad.setNombre(rs.getString("nombre"));
+                searchCiudad.setIdProvincia(rs.getInt("provincia_id"));
             }
         }catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw e;
         }finally {
             try{
                 if(rs != null) rs.close();
                 if(stmt != null) stmt.close();
                 DbConnector.getInstancia().releaseConn();
             }catch (Exception e) {
-                e.printStackTrace();
+                throw e;
             }
         }
-        return p;
+        //return p;
     }
 
-    public void create(Ciudad createCiudad, Provincia provincia) {
+    public void create(Ciudad createCiudad, Provincia provincia) throws SQLException, ClassNotFoundException  {
         PreparedStatement stmt= null;
         ResultSet keyResultSet=null;
         try {
@@ -88,20 +85,20 @@ public class DataCiudad {
                 createCiudad.setId(keyResultSet.getInt(1));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
         } finally {
             try {
                 if(keyResultSet!=null)keyResultSet.close();
                 if(stmt!=null)stmt.close();
                 DbConnector.getInstancia().releaseConn();
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw e;
             }
         }
 
     }
 
-    public void update(Ciudad updateCiudad, Provincia provincia){
+    public void update(Ciudad updateCiudad, Provincia provincia) throws SQLException, ClassNotFoundException {
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
@@ -113,18 +110,18 @@ public class DataCiudad {
             stmt.setInt(3, updateCiudad.getId());
             stmt.executeUpdate();
         }catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
         }finally {
             try{
                 if(stmt != null) stmt.close();
                 DbConnector.getInstancia().releaseConn();
             }catch (Exception e) {
-                e.printStackTrace();
+                throw e;
             }
         }
     }
 
-    public void delete(Ciudad deleteCiudad){
+    public void delete(Ciudad deleteCiudad) throws SQLException, ClassNotFoundException {
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
@@ -134,13 +131,13 @@ public class DataCiudad {
             stmt.setInt(1, deleteCiudad.getId());
             stmt.executeUpdate();
         }catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
         }finally {
             try{
                 if(stmt != null) stmt.close();
                 DbConnector.getInstancia().releaseConn();
             }catch (Exception e) {
-                e.printStackTrace();
+                throw e;
             }
         }
     }

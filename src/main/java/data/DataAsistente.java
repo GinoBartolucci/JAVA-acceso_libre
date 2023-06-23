@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.LinkedList;
 
 public class DataAsistente {
-    public LinkedList<Asistente> getAll(){
+    public LinkedList<Asistente> getAll() throws SQLException, ClassNotFoundException{
         LinkedList<Asistente> ListaAsistentes = new LinkedList<Asistente>();
         ResultSet rs = null;
         Statement stmt = null;
@@ -25,77 +25,71 @@ public class DataAsistente {
                 }
             }
         }catch (SQLException e){
-            e.printStackTrace();
-            return null;
+            throw e;
         }finally {
             try{
                 if(rs != null) rs.close();
                 if(stmt != null) stmt.close();
                 DbConnector.getInstancia().releaseConn();
             }catch (Exception e){
-                e.printStackTrace();
+                throw e;
             }
         }
         return ListaAsistentes;
     }
-public Asistente findOne(Asistente asistente){
-        Asistente a = null;
+    
+    public void findOne(Asistente searchAsistente) throws SQLException, ClassNotFoundException{
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn().prepareStatement(
                     "SELECT * FROM usuarios WHERE id = ?"
             );
-            stmt.setInt(1, asistente.getId());
+            stmt.setInt(1, searchAsistente.getId());
             rs = stmt.executeQuery();
             if(rs != null && rs.next()){
-                a = new Asistente(rs.getInt("id"),
-                        rs.getString("nombre_usuario"),
-                        rs.getString("email"),
-                        rs.getString("password"));
+                searchAsistente.setNombre_usuario(rs.getString("nombre_usuario"));
+                searchAsistente.setEmail(rs.getString("email"));
+                searchAsistente.setPassword(rs.getString("password"));
             }
         }catch (SQLException e){
-            e.printStackTrace();
+            throw e;
         }finally {
             try{
                 if(rs != null) rs.close();
                 if(stmt != null) stmt.close();
                 DbConnector.getInstancia().releaseConn();
             }catch (Exception e){
-                e.printStackTrace();
+                throw e;
             }
         }
-        return a;
     }
-    public Asistente getByEmail(Asistente asistente){
-        Asistente a = null;
+    public void getByEmail(Asistente searchAsistente) throws SQLException, ClassNotFoundException{
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn().prepareStatement(
                     "SELECT * FROM usuarios WHERE email = ?");
-            stmt.setString(1, asistente.getEmail());
+            stmt.setString(1, searchAsistente.getEmail());
             rs = stmt.executeQuery();
             if(rs != null && rs.next()){
-                a = new Asistente(rs.getInt("id"),
-                        rs.getString("nombre_usuario"),
-                        rs.getString("email"),
-                        rs.getString("password"));
+                searchAsistente.setNombre_usuario(rs.getString("nombre_usuario"));
+                searchAsistente.setEmail(rs.getString("email"));
+                searchAsistente.setPassword(rs.getString("password"));
             }
         }catch (SQLException e){
-            e.printStackTrace();
+            throw e;
         }finally {
             try{
                 if(rs != null) rs.close();
                 if(stmt != null) stmt.close();
                 DbConnector.getInstancia().releaseConn();
             }catch (Exception e){
-                e.printStackTrace();
+                throw e;
             }
         }
-        return a;
     }
-    public void create(Asistente createAsistente){
+    public void create(Asistente createAsistente) throws SQLException, ClassNotFoundException{
         PreparedStatement stmt = null;
         ResultSet keyResultSet=null;
         try{
@@ -115,14 +109,14 @@ public Asistente findOne(Asistente asistente){
                 //Si la base de datos tira un problema se salta un id ????
             }
         }catch (SQLException e){
-            e.printStackTrace();
+            throw e;
         }finally {
             try{
                 if(keyResultSet!=null)keyResultSet.close();
                 if(stmt != null) stmt.close();
                 DbConnector.getInstancia().releaseConn();
             }catch (Exception e){
-                e.printStackTrace();
+                throw e;
             }
         }
     }

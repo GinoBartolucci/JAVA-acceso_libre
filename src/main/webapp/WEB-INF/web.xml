@@ -19,4 +19,14 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>ABMProvincia</display-name>
+    <servlet-name>ABMProvincia</servlet-name>
+    <servlet-class>servlets.ABMProvincia</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ABMProvincia</servlet-name>
+    <url-pattern>/abmprovincia</url-pattern>
+  </servlet-mapping>
 </web-app>

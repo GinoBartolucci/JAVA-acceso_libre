@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.LinkedList;
 
 public class DataProvincia {
-    public LinkedList<Provincia> getAll() {
+    public LinkedList<Provincia> getAll() throws SQLException, ClassNotFoundException {
         LinkedList<Provincia> ListaProvincias = new LinkedList<Provincia>();
         ResultSet rs =null;
         Statement stmt = null;
@@ -24,22 +24,21 @@ public class DataProvincia {
                 }
             }
         }catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw e;
         }finally {
             try{
                 if(rs != null) rs.close();
                 if(stmt != null) stmt.close();
                 DbConnector.getInstancia().releaseConn();
             }catch (Exception e) {
-                e.printStackTrace();
+                throw e;
             }
         }
         return ListaProvincias;
     }
 
-    public Provincia findOne(Provincia searchProvincia){
-        Provincia p = null ;
+    public void findOne(Provincia searchProvincia) throws SQLException, ClassNotFoundException{
+        // Provincia p = null ;
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try{
@@ -48,25 +47,25 @@ public class DataProvincia {
             stmt.setInt(1, searchProvincia.getId());
             rs = stmt.executeQuery();
             if(rs != null && rs.next()){
-                p = new Provincia(rs.getInt("id"),
-                        rs.getString("nombre"));
+                searchProvincia.setNombre(rs.getString("nombre"));
+                // p = new Provincia(rs.getInt("id"),
+                //         rs.getString("nombre"));
             }
         }catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            throw e;
+            //return null;
         }finally {
             try{
                 if(rs != null) rs.close();
                 if(stmt != null) stmt.close();
                 DbConnector.getInstancia().releaseConn();
             }catch (Exception e) {
-                e.printStackTrace();
+                throw e;
             }
         }
-        return p;
     }
 
-    public void create(Provincia createProvincia) {
+    public void create(Provincia createProvincia) throws SQLException, ClassNotFoundException {
         PreparedStatement stmt= null;
         ResultSet keyResultSet=null;
         try {
@@ -82,20 +81,20 @@ public class DataProvincia {
                 createProvincia.setId(keyResultSet.getInt(1));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
         } finally {
             try {
                 if(keyResultSet!=null)keyResultSet.close();
                 if(stmt!=null)stmt.close();
                 DbConnector.getInstancia().releaseConn();
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw e;
             }
         }
 
     }
 
-    public void update(Provincia updateProvincia){
+    public void update(Provincia updateProvincia) throws SQLException, ClassNotFoundException{
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
@@ -106,18 +105,18 @@ public class DataProvincia {
             stmt.setInt(2, updateProvincia.getId());
             stmt.executeUpdate();
         }catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
         }finally {
             try{
                 if(stmt != null) stmt.close();
                 DbConnector.getInstancia().releaseConn();
             }catch (Exception e) {
-                e.printStackTrace();
+                throw e;
             }
         }
     }
 
-    public void delete(Provincia deleteProvincia){
+    public void delete(Provincia deleteProvincia) throws SQLException, ClassNotFoundException{
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
@@ -127,13 +126,13 @@ public class DataProvincia {
             stmt.setInt(1, deleteProvincia.getId());
             stmt.executeUpdate();
         }catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
         }finally {
             try{
                 if(stmt != null) stmt.close();
                 DbConnector.getInstancia().releaseConn();
             }catch (Exception e) {
-                e.printStackTrace();
+                throw e;
             }
         }
     }

@@ -17,42 +17,42 @@ public class DbConnector {
     private int conectados = 0;
     private Connection conn=null;
 
-    private DbConnector() {
+    private DbConnector() throws ClassNotFoundException {
         try {
             Class.forName(driver);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            throw e;
         }
     }
 
-    public static DbConnector getInstancia() {
+    public static DbConnector getInstancia() throws ClassNotFoundException {
         if (instancia == null) {
             instancia = new DbConnector();
         }
         return instancia;
     }
 
-    public Connection getConn() {
+    public Connection getConn() throws SQLException {
         try {
             if(conn==null || conn.isClosed()) {
                 conn= DriverManager.getConnection("jdbc:mysql://"+host+":"+port+"/"+db, user, pass);
                 conectados=0;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
         }
         conectados++;
         return conn;
     }
 
-    public void releaseConn() {
+    public void releaseConn() throws SQLException {
         conectados--;
         try {
             if (conectados<=0) {
                 conn.close();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw e;
         }
     }
 }
