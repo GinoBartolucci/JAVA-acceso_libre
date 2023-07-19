@@ -1,24 +1,26 @@
 package data;
 
-import entities.Provincia;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
-public class DataProvincia {
-    public LinkedList<Provincia> getAll() throws SQLException, ClassNotFoundException {
-        LinkedList<Provincia> ListaProvincias = new LinkedList<Provincia>();
-        ResultSet rs =null;
-        Statement stmt = null;
+import entities.Lugar;
+
+public class DataLugar {
+	public LinkedList<Lugar> getAll() throws SQLException, ClassNotFoundException  {
+		LinkedList<Lugar> ListaLugares = new LinkedList<Lugar>();
+		ResultSet rs =null;
+	    Statement stmt = null;
         try {
             stmt = DbConnector.getInstancia().getConn().createStatement();
-            rs = stmt.executeQuery("SELECT * FROM provincias");
+            rs = stmt.executeQuery("SELECT * FROM Lugares");
             if(rs != null) {
                 while(rs.next()) {
-                    Provincia p = new Provincia(rs.getInt("id"), rs.getString("nombre"));
-                    ListaProvincias.add(p);
+                	Lugar p = new Lugar(rs.getInt("id"),rs.getString("nombre"),rs.getString("direccion"),
+                			rs.getInt("capacidad"),rs.getInt("ciudad_id"));
+                    ListaLugares.add(p);
                 }
             }
         }catch (SQLException e) {
@@ -32,26 +34,25 @@ public class DataProvincia {
                 throw e;
             }
         }
-        return ListaProvincias;
-    }
-
-    public void findOne(Provincia searchProvincia) throws SQLException, ClassNotFoundException{
-        // Provincia p = null ;
+        return ListaLugares;
+	}
+    public void findOne(Lugar searchLugar) throws SQLException, ClassNotFoundException {
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try{
-            stmt = DbConnector.getInstancia().getConn().prepareStatement(
-                    "SELECT * FROM provincias WHERE id = ?");
-            stmt.setInt(1, searchProvincia.getId());
+            stmt = DbConnector.getInstancia().getConn()
+                    .prepareStatement("SELECT * FROM Lugareses WHERE id = ?");
+            stmt.setInt(1, searchLugar.getId());
+
             rs = stmt.executeQuery();
             if(rs != null && rs.next()){
-                searchProvincia.setNombre(rs.getString("nombre"));
-                // p = new Provincia(rs.getInt("id"),
-                //         rs.getString("nombre"));
+                searchLugar.setNombre(rs.getString("nombre"));
+                searchLugar.setDireccion(rs.getString("direccion"));
+                searchLugar.setCapacidad(rs.getInt("capacidad"));
+                searchLugar.setCiudad_id(rs.getInt("ciudad_id"));
             }
         }catch (SQLException e) {
             throw e;
-            //return null;
         }finally {
             try{
                 if(rs != null) rs.close();
@@ -63,20 +64,25 @@ public class DataProvincia {
         }
     }
 
-    public void create(Provincia createProvincia) throws SQLException, ClassNotFoundException {
+    public void create(Lugar createLugar) throws SQLException, ClassNotFoundException  {
         PreparedStatement stmt= null;
         ResultSet keyResultSet=null;
         try {
-            stmt=DbConnector.getInstancia().getConn().prepareStatement(
-                            "insert into provincias(nombre) values(?)",
+            stmt=DbConnector.getInstancia().getConn().
+                    prepareStatement(
+                            "insert into Ciudad(nombre,direccion,capacidad,ciudad_id) values(?,?,?,?)",
                             PreparedStatement.RETURN_GENERATED_KEYS
                     );
-            stmt.setString(1, createProvincia.getNombre());
+            stmt.setString(1, createLugar.getNombre());
+            stmt.setString(2, createLugar.getDireccion());
+            stmt.setInt(3, createLugar.getCapacidad());
+            stmt.setInt(4, createLugar.getCiudad_id());
+
             stmt.executeUpdate();
 
             keyResultSet=stmt.getGeneratedKeys();
             if(keyResultSet!=null && keyResultSet.next()){
-                createProvincia.setId(keyResultSet.getInt(1));
+                createLugar.setId(keyResultSet.getInt(1));
             }
         } catch (SQLException e) {
             throw e;
@@ -89,18 +95,20 @@ public class DataProvincia {
                 throw e;
             }
         }
-
     }
 
-    public void update(Provincia updateProvincia) throws SQLException, ClassNotFoundException{
+    public void update(Lugar updateLugar) throws SQLException, ClassNotFoundException {
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
                     .prepareStatement(
-                            "UPDATE provincias SET nombre = ? WHERE id = ?"
+                            "UPDATE Lugares SET nombre = ?,direccion = ?,"
+                            + "capacidad = ?,ciudad_id = ?"
                     );
-            stmt.setString(1, updateProvincia.getNombre());
-            stmt.setInt(2, updateProvincia.getId());
+            stmt.setString(1, updateLugar.getNombre());
+            stmt.setString(2, updateLugar.getDireccion());
+            stmt.setInt(3, updateLugar.getCapacidad());
+            stmt.setInt(4, updateLugar.getCiudad_id());
             stmt.executeUpdate();
         }catch (SQLException e) {
             throw e;
@@ -114,14 +122,14 @@ public class DataProvincia {
         }
     }
 
-    public void delete(Provincia deleteProvincia) throws SQLException, ClassNotFoundException{
+    public void delete( Lugar deleteLugar) throws SQLException, ClassNotFoundException {
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
                     .prepareStatement(
-                            "DELETE FROM provincias WHERE id = ?"
+                            "DELETE FROM Lugares WHERE id = ?"
                     );
-            stmt.setInt(1, deleteProvincia.getId());
+            stmt.setInt(1, deleteLugar.getId());
             stmt.executeUpdate();
         }catch (SQLException e) {
             throw e;

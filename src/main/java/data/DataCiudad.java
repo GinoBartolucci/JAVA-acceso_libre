@@ -1,6 +1,5 @@
 package data;
 import entities.Ciudad;
-import entities.Provincia;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,10 +16,7 @@ public class DataCiudad {
             rs = stmt.executeQuery("SELECT * FROM Ciudades");
             if(rs != null) {
                 while(rs.next()) {
-                    Ciudad p = new Ciudad();
-                    p.setId(rs.getInt("id"));
-                    p.setNombre(rs.getString("nombre"));
-                    p.setIdProvincia(rs.getInt("provincia_id"));
+                    Ciudad p = new Ciudad(rs.getInt("id"),rs.getString("nombre"),rs.getInt("provincia_id"));
                     ListaCiudades.add(p);
                 }
             }
@@ -39,7 +35,6 @@ public class DataCiudad {
     }
 
     public void findOne(Ciudad searchCiudad) throws SQLException, ClassNotFoundException {
-        //Ciudad p = null ;
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try{
@@ -49,7 +44,6 @@ public class DataCiudad {
 
             rs = stmt.executeQuery();
             if(rs != null && rs.next()){
-                //p = new Ciudad();
                 searchCiudad.setNombre(rs.getString("nombre"));
                 searchCiudad.setIdProvincia(rs.getInt("provincia_id"));
             }
@@ -67,17 +61,17 @@ public class DataCiudad {
         //return p;
     }
 
-    public void create(Ciudad createCiudad, Provincia provincia) throws SQLException, ClassNotFoundException  {
+    public void create(Ciudad createCiudad) throws SQLException, ClassNotFoundException  {
         PreparedStatement stmt= null;
         ResultSet keyResultSet=null;
         try {
             stmt=DbConnector.getInstancia().getConn().
                     prepareStatement(
-                            "insert into Ciudad(nombre) values(?,?)",
+                            "insert into Ciudad(nombre,provincia_id) values(?,?)",
                             PreparedStatement.RETURN_GENERATED_KEYS
                     );
             stmt.setString(1, createCiudad.getNombre());
-            stmt.setInt(2, provincia.getId());
+            stmt.setInt(2, createCiudad.getIdProvincia());
             stmt.executeUpdate();
 
             keyResultSet=stmt.getGeneratedKeys();
@@ -98,7 +92,7 @@ public class DataCiudad {
 
     }
 
-    public void update(Ciudad updateCiudad, Provincia provincia) throws SQLException, ClassNotFoundException {
+    public void update(Ciudad updateCiudad) throws SQLException, ClassNotFoundException {
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
@@ -106,7 +100,7 @@ public class DataCiudad {
                             "UPDATE Ciudades SET nombre = ?, provincia_id = ? WHERE id = ?"
                     );
             stmt.setString(1, updateCiudad.getNombre());
-            stmt.setInt(2, provincia.getId());
+            stmt.setInt(2, updateCiudad.getIdProvincia());
             stmt.setInt(3, updateCiudad.getId());
             stmt.executeUpdate();
         }catch (SQLException e) {

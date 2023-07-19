@@ -1,28 +1,32 @@
 package data;
 
-import entities.Asistente;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
-public class DataAsistente {
-    public LinkedList<Asistente> getAll() throws SQLException, ClassNotFoundException{
-        LinkedList<Asistente> ListaAsistentes = new LinkedList<Asistente>();
+import entities.Asistente;
+import entities.Productora;
+
+public class DataProductora {
+    public LinkedList<Productora> getAll() throws SQLException, ClassNotFoundException{
+        LinkedList<Productora> ListaProductoras = new LinkedList<Productora>();
         ResultSet rs = null;
         Statement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn().createStatement();
-            rs = stmt.executeQuery("SELECT * FROM usuarios where productora = 0");
+            rs = stmt.executeQuery("SELECT * FROM usuarios where productora = 1");
             if(rs != null){
                 while(rs.next()){
-                    Asistente a = new Asistente(rs.getInt("id"),
+                    Productora p = new Productora(rs.getInt("id"),
                             rs.getString("nombre_usuario"),
                             rs.getString("email"),
-                            rs.getString("password"));
-                    ListaAsistentes.add(a);
+                            rs.getString("password"),
+                            rs.getString("nombre"),
+                            rs.getString("cuil"),
+                            rs.getString("telefono"));
+                    ListaProductoras.add(p);
                 }
             }
         }catch (SQLException e){
@@ -36,22 +40,25 @@ public class DataAsistente {
                 throw e;
             }
         }
-        return ListaAsistentes;
+        return ListaProductoras;
     }
     
-    public void findOne(Asistente searchAsistente) throws SQLException, ClassNotFoundException{
+    public void findOne(Productora searchProductora) throws SQLException, ClassNotFoundException{
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn().prepareStatement(
-                    "SELECT * FROM usuarios WHERE id = ? and productora =0"
+                    "SELECT * FROM usuarios WHERE id = ? and productora = 1"
             );
-            stmt.setInt(1, searchAsistente.getId());
+            stmt.setInt(1, searchProductora.getId());
             rs = stmt.executeQuery();
             if(rs != null && rs.next()){
-                searchAsistente.setNombre_usuario(rs.getString("nombre_usuario"));
-                searchAsistente.setEmail(rs.getString("email"));
-                searchAsistente.setPassword(rs.getString("password"));
+            	searchProductora.setNombre_usuario(rs.getString("nombre_usuario"));
+            	searchProductora.setEmail(rs.getString("email"));
+            	searchProductora.setPassword(rs.getString("password"));
+            	searchProductora.setNombre(rs.getString("nombre"));
+            	searchProductora.setCuil(rs.getString("cuil"));
+            	searchProductora.setTelefono(rs.getString("telefono"));
             }
         }catch (SQLException e){
             throw e;
@@ -65,18 +72,21 @@ public class DataAsistente {
             }
         }
     }
-    public void getByEmail(Asistente searchAsistente) throws SQLException, ClassNotFoundException{
+    public void getByEmail(Productora searchProductora) throws SQLException, ClassNotFoundException{
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn().prepareStatement(
-                    "SELECT * FROM usuarios WHERE email = ? and productora =0");
-            stmt.setString(1, searchAsistente.getEmail());
+                    "SELECT * FROM usuarios WHERE email = ? and productora = 1");
+            stmt.setString(1, searchProductora.getEmail());
             rs = stmt.executeQuery();
             if(rs != null && rs.next()){
-                searchAsistente.setNombre_usuario(rs.getString("nombre_usuario"));
-                searchAsistente.setEmail(rs.getString("email"));
-                searchAsistente.setPassword(rs.getString("password"));
+            	searchProductora.setNombre_usuario(rs.getString("nombre_usuario"));
+            	searchProductora.setEmail(rs.getString("email"));
+            	searchProductora.setPassword(rs.getString("password"));
+            	searchProductora.setNombre(rs.getString("nombre"));
+            	searchProductora.setCuil(rs.getString("cuil"));
+            	searchProductora.setTelefono(rs.getString("telefono"));
             }
         }catch (SQLException e){
             throw e;
@@ -90,22 +100,25 @@ public class DataAsistente {
             }
         }
     }
-    public void create(Asistente createAsistente) throws SQLException, ClassNotFoundException{
+    public void create(Productora createProductora) throws SQLException, ClassNotFoundException{
         PreparedStatement stmt = null;
         ResultSet keyResultSet=null;
         try{
             stmt = DbConnector.getInstancia().getConn().prepareStatement(
                     "INSERT INTO usuarios (nombre_usuario, email, " +
-                            "password,productora) VALUES(?,?,?,0)",
+                            "password,productora,cuil,telefono,nombre) VALUES(?,?,?,1,?,?,?)",
                     PreparedStatement.RETURN_GENERATED_KEYS
             );
-            stmt.setString(1, createAsistente.getNombre_usuario());
-            stmt.setString(2, createAsistente.getEmail());
-            stmt.setString(3, createAsistente.getPassword());
+            stmt.setString(1, createProductora.getNombre_usuario());
+            stmt.setString(2, createProductora.getEmail());
+            stmt.setString(3, createProductora.getPassword());
+            stmt.setString(3, createProductora.getCuil());
+            stmt.setString(3, createProductora.getTelefono());
+            stmt.setString(3, createProductora.getNombre());
             stmt.executeUpdate();
             keyResultSet=stmt.getGeneratedKeys();
             if(keyResultSet!=null && keyResultSet.next()){
-                createAsistente.setId(keyResultSet.getInt(1));
+            	createProductora.setId(keyResultSet.getInt(1));
             }
         }catch (SQLException e){
             throw e;
@@ -119,16 +132,19 @@ public class DataAsistente {
             }
         }
     }
-    public void update(Asistente updateAsistente) throws SQLException, ClassNotFoundException{
+    public void update(Productora updateProductora) throws SQLException, ClassNotFoundException{
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
                     .prepareStatement(
-                            "UPDATE usuarios SET nombre_usuario = ?, email=? WHERE id = ? and productora = 0"
+                            "UPDATE usuarios SET nombre_usuario = ?, email=?, cuil=?, telefono=?,"
+                            + "nombre=? WHERE id = ? and productora = 1"
                     );
-            stmt.setString(1, updateAsistente.getNombre_usuario());
-            stmt.setString(1, updateAsistente.getEmail());
-            stmt.setInt(2, updateAsistente.getId());
+            stmt.setString(1, updateProductora.getNombre_usuario());
+            stmt.setString(2, updateProductora.getEmail());
+            stmt.setString(3, updateProductora.getCuil());
+            stmt.setString(3, updateProductora.getTelefono());
+            stmt.setString(3, updateProductora.getNombre());
             stmt.executeUpdate();
         }catch (SQLException e) {
             throw e;
@@ -147,7 +163,7 @@ public class DataAsistente {
         try{
             stmt = DbConnector.getInstancia().getConn()
                     .prepareStatement(
-                            "DELETE FROM usuarios WHERE id = ? and productora = 0"
+                            "DELETE FROM usuarios WHERE id = ? and productora = 1"
                     );
             stmt.setInt(1, deleteAsistente.getId());
             stmt.executeUpdate();

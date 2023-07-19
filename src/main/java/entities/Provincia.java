@@ -3,14 +3,9 @@ package entities;
 public class Provincia {
     private int id;
     private String nombre;
-
-    public Provincia() {
-    }
-    public Provincia(String nombre) {
+    
+	public Provincia(String nombre) {
         this.nombre = nombre;
-    }
-    public Provincia(int id) {
-        this.id = id;
     }
     public Provincia(int id, String nombre) {
         this.id = id;

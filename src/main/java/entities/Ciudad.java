@@ -5,9 +5,15 @@ public class Ciudad {
     private String nombre;
     private int idProvincia;
 
-    public Ciudad() {
+    public Ciudad(String nombre, int idProvincia) {
+        this.nombre = nombre;
+        this.idProvincia = idProvincia;
     }
-
+    public Ciudad(int id, String nombre, int idProvincia) {
+        this.id = id;
+        this.nombre = nombre;
+        this.idProvincia = idProvincia;
+    }
     public int getId() {
         return id;
     }

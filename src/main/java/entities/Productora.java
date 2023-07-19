@@ -5,13 +5,21 @@ public class Productora extends Usuario {
     private String nombre;
     private String telefono;
 
-    public Productora(String nombre_usuario, String email,String password,
+    public Productora(int id, String nombre_usuario, String email,String password,
                       String nombre, String cuil, String telefono) {
         super(nombre_usuario, email, password, true);
         this.nombre = nombre;
         this.cuil = cuil;
         this.telefono = telefono;
     }
+    public Productora(String nombre_usuario, String email,String password,
+            String nombre, String cuil, String telefono) {
+		super(nombre_usuario, email, password, true);
+		this.nombre = nombre;
+		this.cuil = cuil;
+		this.telefono = telefono;
+	}
+    
     public String getTelefono() {
         return telefono;
     }

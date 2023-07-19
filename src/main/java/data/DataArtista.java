@@ -1,24 +1,25 @@
 package data;
 
-import entities.Provincia;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
-public class DataProvincia {
-    public LinkedList<Provincia> getAll() throws SQLException, ClassNotFoundException {
-        LinkedList<Provincia> ListaProvincias = new LinkedList<Provincia>();
+import entities.Artista;
+
+public class DataArtista {
+	public LinkedList<Artista> getAll() throws SQLException, ClassNotFoundException  {
+        LinkedList<Artista> ListaArtistas = new LinkedList<Artista>();
         ResultSet rs =null;
         Statement stmt = null;
         try {
             stmt = DbConnector.getInstancia().getConn().createStatement();
-            rs = stmt.executeQuery("SELECT * FROM provincias");
+            rs = stmt.executeQuery("SELECT * FROM Artistas");
             if(rs != null) {
                 while(rs.next()) {
-                    Provincia p = new Provincia(rs.getInt("id"), rs.getString("nombre"));
-                    ListaProvincias.add(p);
+                	Artista p = new Artista(rs.getInt("id"),rs.getString("nombre"));
+                    ListaArtistas.add(p);
                 }
             }
         }catch (SQLException e) {
@@ -32,26 +33,22 @@ public class DataProvincia {
                 throw e;
             }
         }
-        return ListaProvincias;
+        return ListaArtistas;
     }
 
-    public void findOne(Provincia searchProvincia) throws SQLException, ClassNotFoundException{
-        // Provincia p = null ;
+    public void findOne(Artista searchArtista) throws SQLException, ClassNotFoundException {
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try{
-            stmt = DbConnector.getInstancia().getConn().prepareStatement(
-                    "SELECT * FROM provincias WHERE id = ?");
-            stmt.setInt(1, searchProvincia.getId());
+            stmt = DbConnector.getInstancia().getConn()
+                    .prepareStatement("SELECT * FROM Artistas WHERE id = ?");
+            stmt.setInt(1, searchArtista.getId());
             rs = stmt.executeQuery();
             if(rs != null && rs.next()){
-                searchProvincia.setNombre(rs.getString("nombre"));
-                // p = new Provincia(rs.getInt("id"),
-                //         rs.getString("nombre"));
+                searchArtista.setNombre(rs.getString("nombre"));
             }
         }catch (SQLException e) {
             throw e;
-            //return null;
         }finally {
             try{
                 if(rs != null) rs.close();
@@ -61,22 +58,24 @@ public class DataProvincia {
                 throw e;
             }
         }
+        //return p;
     }
 
-    public void create(Provincia createProvincia) throws SQLException, ClassNotFoundException {
+    public void create(Artista createArtista) throws SQLException, ClassNotFoundException  {
         PreparedStatement stmt= null;
         ResultSet keyResultSet=null;
         try {
-            stmt=DbConnector.getInstancia().getConn().prepareStatement(
-                            "insert into provincias(nombre) values(?)",
+            stmt=DbConnector.getInstancia().getConn().
+                    prepareStatement(
+                            "insert into Artistas(nombre) values(?)",
                             PreparedStatement.RETURN_GENERATED_KEYS
                     );
-            stmt.setString(1, createProvincia.getNombre());
+            stmt.setString(1, createArtista.getNombre());
             stmt.executeUpdate();
 
             keyResultSet=stmt.getGeneratedKeys();
             if(keyResultSet!=null && keyResultSet.next()){
-                createProvincia.setId(keyResultSet.getInt(1));
+                createArtista.setId(keyResultSet.getInt(1));
             }
         } catch (SQLException e) {
             throw e;
@@ -92,15 +91,15 @@ public class DataProvincia {
 
     }
 
-    public void update(Provincia updateProvincia) throws SQLException, ClassNotFoundException{
+    public void update(Artista updateArtista) throws SQLException, ClassNotFoundException {
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
                     .prepareStatement(
-                            "UPDATE provincias SET nombre = ? WHERE id = ?"
+                            "UPDATE Artistas SET nombre = ? WHERE id = ?"
                     );
-            stmt.setString(1, updateProvincia.getNombre());
-            stmt.setInt(2, updateProvincia.getId());
+            stmt.setString(1, updateArtista.getNombre());
+            stmt.setInt(2, updateArtista.getId());
             stmt.executeUpdate();
         }catch (SQLException e) {
             throw e;
@@ -114,14 +113,14 @@ public class DataProvincia {
         }
     }
 
-    public void delete(Provincia deleteProvincia) throws SQLException, ClassNotFoundException{
+    public void delete(Artista deleteArtista) throws SQLException, ClassNotFoundException {
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
                     .prepareStatement(
-                            "DELETE FROM provincias WHERE id = ?"
+                            "DELETE FROM Artistas WHERE id = ?"
                     );
-            stmt.setInt(1, deleteProvincia.getId());
+            stmt.setInt(1, deleteArtista.getId());
             stmt.executeUpdate();
         }catch (SQLException e) {
             throw e;
