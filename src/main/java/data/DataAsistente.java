@@ -39,7 +39,7 @@ public class DataAsistente {
         return ListaAsistentes;
     }
     
-    public void findOne(Asistente searchAsistente) throws SQLException, ClassNotFoundException{
+    public void findById(Asistente searchAsistente) throws SQLException, ClassNotFoundException{
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try{

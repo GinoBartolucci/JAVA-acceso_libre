@@ -43,7 +43,7 @@ public class DataProductora {
         return ListaProductoras;
     }
     
-    public void findOne(Productora searchProductora) throws SQLException, ClassNotFoundException{
+    public void findById(Productora searchProductora) throws SQLException, ClassNotFoundException{
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try{

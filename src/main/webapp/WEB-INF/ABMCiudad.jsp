@@ -1,4 +1,5 @@
 <%@page import="java.util.LinkedList" %>
+<%@page import="entities.Ciudad" %>
 <%@page import="entities.Provincia" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -7,45 +8,57 @@
 <head>
 <meta charset="ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Menu Provincias</title>
+    <title>Menu Ciudades</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 	<%
-		LinkedList<Provincia> lp = (LinkedList<Provincia>)request.getAttribute("provincias");
+		LinkedList<Ciudad> listaC = (LinkedList<Ciudad>)request.getAttribute("ciudades");
+		LinkedList<Provincia> listaP = (LinkedList<Provincia>)request.getAttribute("provincias");
 	%>
 </head>
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-			<h1>Administrar Provincias</h1>		
+			<h1>Administrar Ciudades</h1>		
 			<hr>
 			<h4>Nueva provincia</h4>
-			 <form class="row" action="abmprovincia" method="post">
+			 <form class="row" action="abmciudad" method="post">
 				 <div class="col-auto">
 				 	<label class="col-form-label" for="nombre">Nombre: </label>
-				    <input type="text" name="nombre" placeholder="Nombre">						    							
+				    <input id="nombre" type="text" name="nombre" placeholder="Nombre">						    							
+				</div>
+				<div class="col-auto">
+				 	<label class="col-form-label" for="provincia">Provincia: </label>				    
+					<select id="provincia_id" name="provincia_id">
+					<% for (Provincia pro : listaP){ %>
+					  <option value="<%=pro.getId()%>"><%=pro.getNombre()%></option>
+					<% } %>
+					</select> 					    							
 				</div>
 				<div class="col-auto">		  
 				   <button type="submit" name="modo" value="1" class="btn btn-success mx-2">Crear</button> 
 				</div>
 			</form> 
 			<hr>
-			<h4>Listado provincias</h4>
+			<h4>Listado Ciudades</h4>
 				<table class="table table table-striped">
 					<thead>
 						<tr>
 							<th scope="col">#</th>
-							<th scope="col">Nombre</th>
+							<th scope="col">Nombre</th>							
+							<th scope="col">Provincia</th>
 							<th scope="col">Editar</th>
 							<th scope="col">Eliminar</th>
 						</tr>
 					</thead>
 					<tbody>
-						<% for (Provincia pro : lp){ %>
+						<% for (Ciudad ciu : listaC){ %>
 						<tr>
-							<form action="abmprovincia" method="post">
-								<td><input type="text" name="id" value="<%=pro.getId()%>" readonly></td>
-								<td><input type="text" name="nombre" value="<%=pro.getNombre()%>" readonly></td>							
+							<form action="abmciudad" method="post">
+								<td><input type="text" name="id" value="<%=ciu.getId()%>" readonly></td>
+								<td><input type="text" name="nombre" value="<%=ciu.getNombre()%>" readonly></td>	
+								<input type="hidden" name="provincia_id" value="<%=ciu.getProvincia().getId()%>" ><%-- Esta en hidden y sin tabla para pasarlo como parametro --%>
+								<td><input type="text" name="provincia_nombre" value="<%=ciu.getProvincia().getNombre()%>" readonly></td>						
 								<td>
 									<button type="submit" name="modo" value="3" class="btn btn-primary" >Editar</button>
 								</td>

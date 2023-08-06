@@ -5,26 +5,26 @@ public class Show {
 	private String nombre;
 	private float precio;
 	private int fecha;
-	private int lugar_id;
+	private Lugar lugar;
 	private int productora_id;
-	private int artista_id;
+	private Artista artista;
 	
-	public Show(int id, String nombre, float precio, int fecha, int lugar_id, int productora_id, int artista_id) {
+	public Show(int id, String nombre, float precio, int fecha, Lugar lugar, int productora_id, Artista artista) {
 		this.id = id;
 		this.nombre = nombre;
 		this.precio = precio;
 		this.fecha = fecha;
-		this.lugar_id = lugar_id;
+		this.lugar = lugar;
 		this.productora_id = productora_id;
-		this.artista_id = artista_id;
+		this.artista = artista;
 	}	
-	public Show(String nombre, float precio, int fecha, int lugar_id, int productora_id, int artista_id) {
+	public Show(String nombre, float precio, int fecha, Lugar lugar, int productora_id, Artista artista) {
 		this.nombre = nombre;
 		this.precio = precio;
 		this.fecha = fecha;
-		this.lugar_id = lugar_id;
+		this.lugar = lugar;
 		this.productora_id = productora_id;
-		this.artista_id = artista_id;
+		this.artista = artista;
 	}
 	public int getId() {
 		return id;
@@ -50,11 +50,11 @@ public class Show {
 	public void setFecha(int fecha) {
 		this.fecha = fecha;
 	}
-	public int getLugar_id() {
-		return lugar_id;
+	public Lugar getLugar() {
+		return lugar;
 	}
-	public void setLugar_id(int lugar_id) {
-		this.lugar_id = lugar_id;
+	public void setLugar(Lugar lugar) {
+		this.lugar = lugar;
 	}
 	public int getProductora_id() {
 		return productora_id;
@@ -62,10 +62,10 @@ public class Show {
 	public void setProductora_id(int productora_id) {
 		this.productora_id = productora_id;
 	}
-	public int getArtista_id() {
-		return artista_id;
+	public Artista getArtista() {
+		return artista;
 	}
-	public void setArtista_id(int artista_id) {
-		this.artista_id = artista_id;
+	public void setArtista(Artista artista) {
+		this.artista = artista;
 	}
 }

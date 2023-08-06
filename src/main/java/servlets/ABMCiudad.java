@@ -5,106 +5,112 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import logic.LogicProvincia;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
 import entities.Ciudad;
 import entities.Provincia;
-import logic.LogicProvincia;
+import logic.LogicCiudad;
 
 /**
- * Servlet implementation class ABMProvincia
+ * Servlet implementation class ABMCiudad
  */
-public class ABMProvincia extends HttpServlet {
+public class ABMCiudad extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public ABMCiudad() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
 
 	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public ABMProvincia() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String modo = request.getParameter("modo");
-		int id = (request.getParameter("id") == null) ? 0 : Integer.parseInt(request.getParameter("id"));
-		String nombre = request.getParameter("nombre");
-		response.getWriter().append("Get request: "+id + nombre + modo);
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
-
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */	
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Listas de elementos necesarios para mostrar y crear el objeto
+		LogicCiudad lc = new LogicCiudad();
+		LinkedList<Ciudad> ciudades = null;
 		LogicProvincia lp = new LogicProvincia();
 		LinkedList<Provincia> provincias = null;
 		try {
+			ciudades = lc.getAll();
+			request.setAttribute("ciudades", ciudades);
 			provincias = lp.getAll();
 			request.setAttribute("provincias", provincias);
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}	
 		//Tipo de resquest del fomulario Alta Baja Modicicar (lleva al jsp de modicicar) ModificarGuardar
 		int modo = (request.getParameter("modo") == null) ? 0: Integer.parseInt(request.getParameter("modo"));
-		if(modo != 0) {
-			//Traer por id elemento que se selecciono
+		if(modo != 0) {			
+			//Traer por id en la lista el elemento que se selecciono
 			int id = (request.getParameter("id") == null) ? 0 : Integer.parseInt(request.getParameter("id"));
-			Provincia p = new Provincia();
+			Ciudad c = new Ciudad();				
+			for(Ciudad ciu : ciudades) {
+				if(ciu.getId() == id) {
+					c = ciu;
+					break;
+				}
+			}	
+			//Parametros que se pueden haber modificado en jsp de modificar. O en el form de crear
+			c.setNombre(request.getParameter("nombre"));
+			int idProvincia = Integer.parseInt(request.getParameter("provincia_id"));
 			for(Provincia pro : provincias) {
-				if(pro.getId() == id) {
-					p = pro;
+				if(pro.getId() == idProvincia) {
+					c.setProvincia(pro);
 					break;
 				}
 			}
-			//Parametros que se pueden haber modificado en jsp de modificar. O en el form de crear
-			p.setNombre(request.getParameter("nombre"));
+			request.setAttribute("ciudad", c);			
 			try {
 				switch (modo) {
-					case 1:						
-						lp.create(p);						
+					case 1:
+						lc.create(c);
 						break;
 					case 2:
-						lp.delete(p);				
+						lc.delete(c);				
 						break;
 					case 3:
-						request.setAttribute("provincia", p); //pasar la provincia a modificar al jsp de modificar
-						request.getRequestDispatcher("WEB-INF\\MProvincia.jsp").forward(request, response);
+						request.getRequestDispatcher("WEB-INF\\MCiudad.jsp").forward(request, response);
 						break;
 					case 4:
-						lp.update(p);					
+						lc.update(c);
 						break;
 				}
-				
 			}
 			catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
 				response.getWriter().append(e.getMessage());
 			}
-			finally{	
+			finally{
 				if(modo != 3) {
 					try {
-						provincias = lp.getAll();
-						request.setAttribute("provincias", provincias);
+						ciudades = lc.getAll();
+						request.setAttribute("ciudades", ciudades);
 					} catch (ClassNotFoundException | SQLException e) {
 						response.getWriter().append(e.getMessage());
 					}
-					request.getRequestDispatcher("WEB-INF\\ABMProvincia.jsp").forward(request, response);
+					request.getRequestDispatcher("WEB-INF\\ABMCiudad.jsp").forward(request, response);
 				}
 			}
-			
 		}
 		else {
-			request.getRequestDispatcher("WEB-INF\\ABMProvincia.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF\\ABMCiudad.jsp").forward(request, response);
 		}
-		
 	}
+
 }

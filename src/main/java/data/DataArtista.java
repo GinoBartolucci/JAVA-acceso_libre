@@ -36,7 +36,7 @@ public class DataArtista {
         return ListaArtistas;
     }
 
-    public void findOne(Artista searchArtista) throws SQLException, ClassNotFoundException {
+    public void findById(Artista searchArtista) throws SQLException, ClassNotFoundException {
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try{

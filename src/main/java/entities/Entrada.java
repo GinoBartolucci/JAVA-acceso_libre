@@ -11,7 +11,8 @@ public class Entrada {
 	private String documento;
 	private boolean validez;
 
-	public Entrada(int id, int asistente_id, int show_id, String codigo, String nombre, String apellido, String tipo_doc,
+	public Entrada(int id, int asistente_id, int show_id, String codigo,
+			String nombre, String apellido, String tipo_doc,
 			String documento, boolean validez) {
 		this.asistente_id = asistente_id;
 		this.show_id = show_id;

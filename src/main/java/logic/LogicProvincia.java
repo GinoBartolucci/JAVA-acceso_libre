@@ -13,8 +13,8 @@ public class LogicProvincia {
   public LinkedList<Provincia> getAll() throws SQLException, ClassNotFoundException {
     return dp.getAll();
   }
-  public void findOne(Provincia p) throws SQLException, ClassNotFoundException {
-    dp.findOne(p);
+  public void findById(Provincia p) throws SQLException, ClassNotFoundException {
+    dp.findById(p);
   }
   public void create (Provincia p) throws SQLException, ClassNotFoundException {
     dp.create(p);

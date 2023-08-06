@@ -1,20 +1,21 @@
 package entities;
-
 public class Ciudad {
     private int id;
     private String nombre;
-    private int idProvincia;
-
-    public Ciudad(String nombre, int idProvincia) {
+    private Provincia provincia;
+    
+    public Ciudad(String nombre, Provincia provincia) {
         this.nombre = nombre;
-        this.idProvincia = idProvincia;
+        this.provincia = provincia;
     }
-    public Ciudad(int id, String nombre, int idProvincia) {
+    public Ciudad(int id, String nombre, Provincia provincia) {
         this.id = id;
         this.nombre = nombre;
-        this.idProvincia = idProvincia;
+        this.provincia = provincia;
     }
-    public int getId() {
+    public Ciudad() {
+	}
+	public int getId() {
         return id;
     }
 
@@ -22,12 +23,12 @@ public class Ciudad {
         this.id = id;
     }
 
-    public int getIdProvincia() {
-        return idProvincia;
+    public Provincia getProvincia() {
+        return provincia;
     }
 
-    public void setIdProvincia(int idProvincia) {
-        this.idProvincia = idProvincia;
+    public void setProvincia(Provincia provincia) {
+        this.provincia = provincia;
     }
 
     public String getNombre() {
@@ -36,9 +37,5 @@ public class Ciudad {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public String getDetalle() {
-        return nombre; // + " (" + idProvincia + ")";
     }
 }

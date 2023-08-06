@@ -6,7 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
+import entities.Ciudad;
 import entities.Lugar;
+import entities.Provincia;
 
 public class DataLugar {
 	public LinkedList<Lugar> getAll() throws SQLException, ClassNotFoundException  {
@@ -15,12 +17,16 @@ public class DataLugar {
 	    Statement stmt = null;
         try {
             stmt = DbConnector.getInstancia().getConn().createStatement();
-            rs = stmt.executeQuery("SELECT * FROM Lugares");
+            rs = stmt.executeQuery("SELECT * FROM Lugares "
+            		+ "inner join ciudades c on ciudad_id = c.id "
+            		+ "inner join provincias p on c.provincia_id = p.id");
             if(rs != null) {
                 while(rs.next()) {
-                	Lugar p = new Lugar(rs.getInt("id"),rs.getString("nombre"),rs.getString("direccion"),
-                			rs.getInt("capacidad"),rs.getInt("ciudad_id"));
-                    ListaLugares.add(p);
+                	Provincia p = new Provincia(rs.getInt("p.id"), rs.getString("p.nombre"));
+                	Ciudad c = new Ciudad(rs.getInt("c.id"), rs.getString("c.nombre"), p);
+                	Lugar l = new Lugar(rs.getInt("id"),rs.getString("nombre"),rs.getString("direccion"),
+                			rs.getInt("capacidad"),c);
+                    ListaLugares.add(l);
                 }
             }
         }catch (SQLException e) {
@@ -41,15 +47,18 @@ public class DataLugar {
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
-                    .prepareStatement("SELECT * FROM Lugareses WHERE id = ?");
+                    .prepareStatement("SELECT * FROM Lugares inner join ciudades c on ciudad_id = c.id "
+                    		+ "inner join provincias p on c.provincia_id = p.id WHERE id = ?");
             stmt.setInt(1, searchLugar.getId());
 
             rs = stmt.executeQuery();
             if(rs != null && rs.next()){
+            	Provincia p = new Provincia(rs.getInt("p.id"), rs.getString("p.nombre"));
+            	Ciudad c = new Ciudad(rs.getInt("c.id"), rs.getString("c.nombre"), p);            	
                 searchLugar.setNombre(rs.getString("nombre"));
                 searchLugar.setDireccion(rs.getString("direccion"));
                 searchLugar.setCapacidad(rs.getInt("capacidad"));
-                searchLugar.setCiudad_id(rs.getInt("ciudad_id"));
+                searchLugar.setCiudad(c);
             }
         }catch (SQLException e) {
             throw e;
@@ -76,7 +85,7 @@ public class DataLugar {
             stmt.setString(1, createLugar.getNombre());
             stmt.setString(2, createLugar.getDireccion());
             stmt.setInt(3, createLugar.getCapacidad());
-            stmt.setInt(4, createLugar.getCiudad_id());
+            stmt.setInt(4, createLugar.getCiudad().getId());
 
             stmt.executeUpdate();
 
@@ -108,7 +117,7 @@ public class DataLugar {
             stmt.setString(1, updateLugar.getNombre());
             stmt.setString(2, updateLugar.getDireccion());
             stmt.setInt(3, updateLugar.getCapacidad());
-            stmt.setInt(4, updateLugar.getCiudad_id());
+            stmt.setInt(4, updateLugar.getCiudad().getId());
             stmt.executeUpdate();
         }catch (SQLException e) {
             throw e;

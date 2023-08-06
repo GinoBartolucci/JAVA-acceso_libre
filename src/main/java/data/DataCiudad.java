@@ -1,5 +1,6 @@
 package data;
 import entities.Ciudad;
+import entities.Provincia;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,11 +14,13 @@ public class DataCiudad {
         Statement stmt = null;
         try {
             stmt = DbConnector.getInstancia().getConn().createStatement();
-            rs = stmt.executeQuery("SELECT * FROM Ciudades");
+            rs = stmt.executeQuery("SELECT * FROM ciudades "
+            		+ "inner join provincias p on provincia_id = p.id");
             if(rs != null) {
                 while(rs.next()) {
-                    Ciudad p = new Ciudad(rs.getInt("id"),rs.getString("nombre"),rs.getInt("provincia_id"));
-                    ListaCiudades.add(p);
+                	Provincia p = new Provincia(rs.getInt("p.id"), rs.getString("p.nombre"));
+                    Ciudad c = new Ciudad(rs.getInt("id"),rs.getString("nombre"),p);
+                    ListaCiudades.add(c);
                 }
             }
         }catch (SQLException e) {
@@ -34,18 +37,20 @@ public class DataCiudad {
         return ListaCiudades;
     }
 
-    public void findOne(Ciudad searchCiudad) throws SQLException, ClassNotFoundException {
+    public void findById(Ciudad searchCiudad) throws SQLException, ClassNotFoundException {
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
-                    .prepareStatement("SELECT * FROM Ciudades WHERE id = ?");
+                    .prepareStatement("SELECT * FROM ciudades"
+                    		+ "inner join provincias p on provincia_id = p.id"
+                    		+ "WHERE id = ?");
             stmt.setInt(1, searchCiudad.getId());
-
             rs = stmt.executeQuery();
             if(rs != null && rs.next()){
                 searchCiudad.setNombre(rs.getString("nombre"));
-                searchCiudad.setIdProvincia(rs.getInt("provincia_id"));
+            	Provincia p = new Provincia(rs.getInt("p.id"), rs.getString("p.nombre"));
+                searchCiudad.setProvincia(p);
             }
         }catch (SQLException e) {
             throw e;
@@ -67,11 +72,11 @@ public class DataCiudad {
         try {
             stmt=DbConnector.getInstancia().getConn().
                     prepareStatement(
-                            "insert into Ciudad(nombre,provincia_id) values(?,?)",
+                            "insert into ciudades(nombre,provincia_id) values(?,?)",
                             PreparedStatement.RETURN_GENERATED_KEYS
                     );
             stmt.setString(1, createCiudad.getNombre());
-            stmt.setInt(2, createCiudad.getIdProvincia());
+            stmt.setInt(2, createCiudad.getProvincia().getId());
             stmt.executeUpdate();
 
             keyResultSet=stmt.getGeneratedKeys();
@@ -96,11 +101,10 @@ public class DataCiudad {
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
-                    .prepareStatement(
-                            "UPDATE Ciudades SET nombre = ?, provincia_id = ? WHERE id = ?"
+                    .prepareStatement("UPDATE ciudades SET nombre = ?, provincia_id = ? WHERE id = ?"
                     );
             stmt.setString(1, updateCiudad.getNombre());
-            stmt.setInt(2, updateCiudad.getIdProvincia());
+            stmt.setInt(2, updateCiudad.getProvincia().getId());
             stmt.setInt(3, updateCiudad.getId());
             stmt.executeUpdate();
         }catch (SQLException e) {
@@ -120,7 +124,7 @@ public class DataCiudad {
         try{
             stmt = DbConnector.getInstancia().getConn()
                     .prepareStatement(
-                            "DELETE FROM Ciudades WHERE id = ?"
+                            "DELETE FROM ciudades WHERE id = ?"
                     );
             stmt.setInt(1, deleteCiudad.getId());
             stmt.executeUpdate();

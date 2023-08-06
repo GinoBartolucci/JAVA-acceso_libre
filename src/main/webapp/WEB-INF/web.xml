@@ -29,4 +29,24 @@
     <servlet-name>ABMProvincia</servlet-name>
     <url-pattern>/abmprovincia</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ABMCiudad</display-name>
+    <servlet-name>ABMCiudad</servlet-name>
+    <servlet-class>servlets.ABMCiudad</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ABMCiudad</servlet-name>
+    <url-pattern>/abmciudad</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ABMArtista</display-name>
+    <servlet-name>ABMArtista</servlet-name>
+    <servlet-class>servlets.ABMArtista</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ABMArtista</servlet-name>
+    <url-pattern>/abmartista</url-pattern>
+  </servlet-mapping>
 </web-app>

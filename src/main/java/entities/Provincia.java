@@ -11,8 +11,9 @@ public class Provincia {
         this.id = id;
         this.nombre = nombre;
     }
-
-    public int getId() {
+    public Provincia() {
+	}
+	public int getId() {
         return id;
     }
 

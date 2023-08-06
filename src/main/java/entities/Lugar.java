@@ -1,26 +1,28 @@
 package entities;
 
+import logic.LogicCiudad;
+
 public class Lugar {
 	private int id;
 	private String nombre;
 	private String direccion;
 	private int capacidad;
-	private int ciudad_id;
+	private Ciudad ciudad;
 	
-	public Lugar(int id, String nombre, String direccion, int capacidad, int ciudad_id) {
+	public Lugar(int id, String nombre, String direccion, int capacidad, Ciudad ciudad) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.direccion = direccion;
 		this.capacidad = capacidad;
-		this.ciudad_id = ciudad_id;
+		this.ciudad = ciudad;
 	}	
-	public Lugar(String nombre, String direccion, int capacidad, int ciudad_id) {
+	public Lugar(String nombre, String direccion, int capacidad, Ciudad ciudad) {
 		super();
 		this.nombre = nombre;
 		this.direccion = direccion;
 		this.capacidad = capacidad;
-		this.ciudad_id = ciudad_id;
+		this.ciudad = ciudad;
 	}
 	public int getId() {
 		return id;
@@ -46,10 +48,10 @@ public class Lugar {
 	public void setCapacidad(int capacidad) {
 		this.capacidad = capacidad;
 	}
-	public int getCiudad_id() {
-		return ciudad_id;
+	public Ciudad getCiudad() {
+		return ciudad;
 	}
-	public void setCiudad_id(int ciudad_id) {
-		this.ciudad_id = ciudad_id;
+	public void setCiudad(Ciudad ciudad) {
+		this.ciudad = ciudad;
 	}
 }

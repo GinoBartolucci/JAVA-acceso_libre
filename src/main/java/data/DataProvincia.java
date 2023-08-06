@@ -34,8 +34,8 @@ public class DataProvincia {
         }
         return ListaProvincias;
     }
-
-    public void findOne(Provincia searchProvincia) throws SQLException, ClassNotFoundException{
+    
+    public void findById(Provincia searchProvincia) throws SQLException, ClassNotFoundException{
         // Provincia p = null ;
         ResultSet rs = null;
         PreparedStatement stmt = null;
