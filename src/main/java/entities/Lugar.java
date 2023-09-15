@@ -9,6 +9,10 @@ public class Lugar {
 	private int capacidad;
 	private Ciudad ciudad;
 	
+	public Lugar() {
+		
+	}
+	
 	public Lugar(int id, String nombre, String direccion, int capacidad, Ciudad ciudad) {
 		super();
 		this.id = id;

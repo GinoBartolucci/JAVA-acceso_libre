@@ -44,14 +44,11 @@
 						<% for (Provincia pro : lp){ %>
 						<tr>
 							<form action="abmprovincia" method="post">
-								<td><input type="text" name="id" value="<%=pro.getId()%>" readonly></td>
-								<td><input type="text" name="nombre" value="<%=pro.getNombre()%>" readonly></td>							
-								<td>
-									<button type="submit" name="modo" value="3" class="btn btn-primary" >Editar</button>
-								</td>
-								<td>
-									<button type="submit" name="modo" value="2" class="btn btn-danger" >Eliminar</button>
-								</td>
+								<input type="hidden" name="id" value="<%=pro.getId()%>" readonly>
+								<td><%=pro.getId()%></td>							
+								<td><%=pro.getNombre()%></td>							
+								<td><button type="submit" name="modo" value="3" class="btn btn-primary" >Editar</button></td>
+								<td><button type="submit" name="modo" value="2" class="btn btn-danger" >Eliminar</button></td>
 							</form>
 						</tr>				
 						<% } %>		

@@ -42,7 +42,7 @@ public class DataLugar {
         }
         return ListaLugares;
 	}
-    public void findOne(Lugar searchLugar) throws SQLException, ClassNotFoundException {
+    public void findById(Lugar searchLugar) throws SQLException, ClassNotFoundException {
         ResultSet rs = null;
         PreparedStatement stmt = null;
         try{

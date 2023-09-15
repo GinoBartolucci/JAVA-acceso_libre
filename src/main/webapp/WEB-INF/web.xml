@@ -49,4 +49,14 @@
     <servlet-name>ABMArtista</servlet-name>
     <url-pattern>/abmartista</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ABMLugar</display-name>
+    <servlet-name>ABMLugar</servlet-name>
+    <servlet-class>servlets.ABMLugar</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ABMLugar</servlet-name>
+    <url-pattern>/abmlugar</url-pattern>
+  </servlet-mapping>
 </web-app>

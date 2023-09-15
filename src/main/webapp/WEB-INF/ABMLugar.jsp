@@ -1,4 +1,5 @@
 <%@page import="java.util.LinkedList" %>
+<%@page import="entities.Lugar" %>
 <%@page import="entities.Ciudad" %>
 <%@page import="entities.Provincia" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -8,9 +9,10 @@
 <head>
 <meta charset="ISO-8859-1">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Menu Ciudades</title>
+    <title>Menu Lugares</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-	<%
+	<%	
+		LinkedList<Lugar> listaL = (LinkedList<Lugar>)request.getAttribute("lugares");
 		LinkedList<Ciudad> listaC = (LinkedList<Ciudad>)request.getAttribute("ciudades");
 		LinkedList<Provincia> listaP = (LinkedList<Provincia>)request.getAttribute("provincias");
 	%>
@@ -19,19 +21,36 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-			<h1>Administrar Ciudades</h1>		
+			<h1>Administrar Lugares</h1>		
 			<hr>
-			<h4>Nueva provincia</h4>
-			 <form class="row" action="abmciudad" method="post">
+			<h4>Nuevo Lugar</h4>
+			 <form class="row" action="abmlugar" method="post">
 				 <div class="col-auto">
 				 	<label class="col-form-label" for="nombre">Nombre: </label>
-				    <input id="nombre" type="text" name="nombre" placeholder="Nombre">						    							
+				    <input id="nombre" type="text" name="nombre">						    							
+				</div>
+				<div class="col-auto">
+				 	<label class="col-form-label" for="direccion">Direccion: </label>
+				    <input id="direccion" type="text" name="direccion">						    							
+				</div>
+				<div class="col-auto">
+				 	<label class="col-form-label" for="capacidad">Capacidad: </label>
+				    <input id="capacidad" type="number" name="capacidad" >						    							
 				</div>
 				<div class="col-auto">
 				 	<label class="col-form-label" for="provincia">Provincia: </label>				    
 					<select id="provincia_id" name="provincia_id">
 					<% for (Provincia pro : listaP){ %>
 					  <option value="<%=pro.getId()%>"><%=pro.getNombre()%></option>
+					<% } %>
+					</select> 					    							
+				</div>
+				<div class="col-auto">
+				 	<label class="col-form-label" for="ciudad">Ciudad: </label>				    
+					<select id="ciudad_id" name="ciudad_id">
+					<% 
+					for (Ciudad ciudad : listaC){ %>
+					  <option value="<%=ciudad.getId()%>"><%=ciudad.getNombre()%></option>
 					<% } %>
 					</select> 					    							
 				</div>
@@ -46,20 +65,24 @@
 						<tr>
 							<th scope="col">#</th>
 							<th scope="col">Nombre</th>							
-							<th scope="col">Provincia</th>
+							<th scope="col">Ciudad</th>						
+							<th scope="col">Direccion</th>						
+							<th scope="col">Capacidad</th>
 							<th scope="col">Editar</th>
 							<th scope="col">Eliminar</th>
 						</tr>
 					</thead>
 					<tbody>
-						<% for (Ciudad ciu : listaC){ %>
+						<% for (Lugar lugar : listaL){ %>
 						<tr>
 							<form action="abmciudad" method="post">
-								<input type="hidden" name="id" value="<%=ciu.getId()%>" ><%-- Esta en hidden y sin tabla para pasarlo como parametro --%>
-								<input type="hidden" name="provincia_id" value="<%=ciu.getProvincia().getId()%>" >
-								<td><%=ciu.getId()%></td>
-								<td><%=ciu.getNombre()%></td>	
-								<td><%=ciu.getProvincia().getNombre()%></td>						
+								<input type="hidden" name="id" value="<%=lugar.getId()%>" ><%-- Esta en hidden y sin tabla para pasarlo como parametro --%>
+								<input type="hidden" name="ciudad_id" value="<%=lugar.getCiudad().getId()%>" >
+								<td><%=lugar.getId()%></td>
+								<td><%=lugar.getNombre()%></td>	
+								<td><%=lugar.getCiudad().getNombre()%></td>
+								<td><%=lugar.getDireccion()%></td>		
+								<td><%=lugar.getCapacidad()%></td>					
 								<td><button type="submit" name="modo" value="3" class="btn btn-primary" >Editar</button></td>
 								<td><button type="submit" name="modo" value="2" class="btn btn-danger" >Eliminar</button></td>
 							</form>

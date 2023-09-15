@@ -5,6 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import logic.LogicLugar;
+import logic.LogicCiudad;
 import logic.LogicProvincia;
 
 import java.io.IOException;
@@ -12,19 +14,19 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 
 import entities.Ciudad;
+import entities.Lugar;
 import entities.Provincia;
-import logic.LogicCiudad;
 
 /**
- * Servlet implementation class ABMCiudad
+ * Servlet implementation class ABMLugar
  */
-public class ABMCiudad extends HttpServlet {
+public class ABMLugar extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ABMCiudad() {
+    public ABMLugar() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,16 +38,21 @@ public class ABMCiudad extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//Listas de elementos necesarios para mostrar y crear el objeto
-		LogicCiudad lc = new LogicCiudad();
+		LinkedList<Lugar> lugares = null;
+		LogicLugar ll = new LogicLugar();
 		LinkedList<Ciudad> ciudades = null;
-		LogicProvincia lp = new LogicProvincia();
+		LogicCiudad lc = new LogicCiudad();
 		LinkedList<Provincia> provincias = null;
+		LogicProvincia lp = new LogicProvincia();
 		try {
+			lugares = ll.getAll();
+			request.setAttribute("lugares", lugares);
 			ciudades = lc.getAll();
 			request.setAttribute("ciudades", ciudades);
 			provincias = lp.getAll();
@@ -56,38 +63,38 @@ public class ABMCiudad extends HttpServlet {
 		int modo = (request.getParameter("modo") == null) ? 0: Integer.parseInt(request.getParameter("modo"));		//Tipo de resquest del fomulario Alta Baja Modicicar (lleva al jsp de modicicar) ModificarGuardar
 		if(modo != 0) {	
 			int id = (request.getParameter("id") == null) ? 0 : Integer.parseInt(request.getParameter("id"));//Traer por id en la lista el elemento que se selecciono
-			Ciudad c = new Ciudad();				
-			for(Ciudad ciu : ciudades) {
-				if(ciu.getId() == id) {
-					c = ciu;
+			Lugar lugar = new Lugar();				
+			for(Lugar l : lugares) {
+				if(l.getId() == id) {
+					lugar = l;
 					break;
 				}
 			}
-			c.setNombre((request.getParameter("nombre") == null) ? c.getNombre(): request.getParameter("nombre"));
-			int idProvincia = Integer.parseInt(request.getParameter("provincia_id"));//Parametros que se pueden haber modificado en jsp de modificar. O en el form de crear
-			for(Provincia pro : provincias) {
-				if(pro.getId() == idProvincia) {
-					c.setProvincia(pro);
+			lugar.setNombre((request.getParameter("nombre") == null) ? lugar.getNombre(): request.getParameter("nombre"));
+			int idCiudad = Integer.parseInt(request.getParameter("ciudad_id"));//Parametros que se pueden haber modificado en jsp de modificar. O en el form de crear		
+			for(Ciudad c : ciudades) {
+				if(c.getId() == idCiudad) {
+					lugar.setCiudad(c);
 					break;
-					}
 				}
-			request.setAttribute("ciudad", c);
+			}
+			request.setAttribute("lugar", lugar);
 			try {
 				switch (modo) {
 					case 1:
-						lc.create(c);	
+						ll.create(lugar);	
 						response.setStatus(201);
 						break;
 					case 2:
-						lc.delete(c);	
+						ll.delete(lugar);	
 						response.setStatus(200);
 						break;
 					case 3:
 						response.setStatus(307);
-						request.getRequestDispatcher("WEB-INF\\MCiudad.jsp").forward(request, response);
+						request.getRequestDispatcher("WEB-INF\\MLugar.jsp").forward(request, response);
 						break;
 					case 4:
-						lc.update(c);
+						ll.update(lugar);
 						response.setStatus(200);
 						break;
 				}
@@ -97,16 +104,16 @@ public class ABMCiudad extends HttpServlet {
 			}
 			if(modo != 3) {
 				try {
-					ciudades = lc.getAll();
-					request.setAttribute("ciudades", ciudades);
+					lugares = ll.getAll();
+					request.setAttribute("lugares", lugares);
 				}catch (ClassNotFoundException | SQLException e) {
 					response.sendError(502);
 				}
-				request.getRequestDispatcher("WEB-INF\\ABMCiudad.jsp").forward(request, response);
+				request.getRequestDispatcher("WEB-INF\\ABMLugar.jsp").forward(request, response);
 			}
 		} 
 		else {
-			request.getRequestDispatcher("WEB-INF\\ABMCiudad.jsp").forward(request, response);
+			request.getRequestDispatcher("WEB-INF\\ABMLugar.jsp").forward(request, response);
 		}
 	}
 

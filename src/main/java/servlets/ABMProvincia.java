@@ -51,8 +51,7 @@ public class ABMProvincia extends HttpServlet {
 			provincias = lp.getAll();
 			request.setAttribute("provincias", provincias);
 		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			response.sendError(502);
 		}
 		//Tipo de resquest del fomulario Alta Baja Modicicar (lleva al jsp de modicicar) ModificarGuardar
 		int modo = (request.getParameter("modo") == null) ? 0: Integer.parseInt(request.getParameter("modo"));
@@ -66,40 +65,43 @@ public class ABMProvincia extends HttpServlet {
 					break;
 				}
 			}
-			//Parametros que se pueden haber modificado en jsp de modificar. O en el form de crear
-			p.setNombre(request.getParameter("nombre"));
+			p.setNombre((request.getParameter("nombre") == null) ? p.getNombre(): request.getParameter("nombre"));
 			try {
 				switch (modo) {
 					case 1:						
-						lp.create(p);						
+						lp.create(p);	
+						response.setStatus(201);
 						break;
 					case 2:
-						lp.delete(p);				
+						lp.delete(p);
+						response.setStatus(200);
 						break;
 					case 3:
+						response.setStatus(307);
 						request.setAttribute("provincia", p); //pasar la provincia a modificar al jsp de modificar
 						request.getRequestDispatcher("WEB-INF\\MProvincia.jsp").forward(request, response);
 						break;
 					case 4:
+						response.setStatus(200);
 						lp.update(p);					
 						break;
 				}
 				
 			}
 			catch (ClassNotFoundException | SQLException e) {
-				response.getWriter().append(e.getMessage());
+				response.sendError(502);
 			}
-			finally{	
-				if(modo != 3) {
+			finally{					
+			}
+			if(modo != 3) {
 					try {
 						provincias = lp.getAll();
 						request.setAttribute("provincias", provincias);
 					} catch (ClassNotFoundException | SQLException e) {
-						response.getWriter().append(e.getMessage());
+						response.sendError(502);
 					}
 					request.getRequestDispatcher("WEB-INF\\ABMProvincia.jsp").forward(request, response);
 				}
-			}
 			
 		}
 		else {
