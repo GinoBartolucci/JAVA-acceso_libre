@@ -12,6 +12,8 @@ public class DbConnector {
     private String port = "3306";
     private String user = "java";
     private String pass = "java";
+    //private String user = "root";
+    //private String pass = "genius123";
     private String db = "venta_entradas";
     private String url = "jdbc:mysql://" + host + ":" + port + "/" + db;
     private int conectados = 0;

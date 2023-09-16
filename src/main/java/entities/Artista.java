@@ -13,6 +13,8 @@ public class Artista {
     this.nombre = nombre;
   }
   
+  public Artista() {}
+  
   public int getId() {
 	return id;
 	}	
