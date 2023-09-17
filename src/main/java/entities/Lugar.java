@@ -1,6 +1,5 @@
 package entities;
 
-import logic.LogicCiudad;
 
 public class Lugar {
 	private int id;

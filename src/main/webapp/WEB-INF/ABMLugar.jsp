@@ -8,6 +8,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<script src="./js/lugares.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Menu Lugares</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -24,7 +25,7 @@
 			<h1>Administrar Lugares</h1>		
 			<hr>
 			<h4>Nuevo Lugar</h4>
-			 <form class="row" action="abmlugar" method="post">
+			 <form id="lugar_form" class="row" action="abmlugar" method="post">
 				 <div class="col-auto">
 				 	<label class="col-form-label" for="nombre">Nombre: </label>
 				    <input id="nombre" type="text" name="nombre">						    							
@@ -40,6 +41,7 @@
 				<div class="col-auto">
 				 	<label class="col-form-label" for="provincia">Provincia: </label>				    
 					<select id="provincia_id" name="provincia_id">
+					<option value=""> </option>
 					<% for (Provincia pro : listaP){ %>
 					  <option value="<%=pro.getId()%>"><%=pro.getNombre()%></option>
 					<% } %>
@@ -47,10 +49,11 @@
 				</div>
 				<div class="col-auto">
 				 	<label class="col-form-label" for="ciudad">Ciudad: </label>				    
-					<select id="ciudad_id" name="ciudad_id">
+					<select id="ciudad_id" name="ciudad_id" disabled>
+					<option value=""> </option>
 					<% 
 					for (Ciudad ciudad : listaC){ %>
-					  <option value="<%=ciudad.getId()%>"><%=ciudad.getNombre()%></option>
+					  <option value="<%=ciudad.getId()%>" provincia_id="<%=ciudad.getProvincia().getId()%>"><%=ciudad.getNombre()%></option>
 					<% } %>
 					</select> 					    							
 				</div>
@@ -75,7 +78,7 @@
 					<tbody>
 						<% for (Lugar lugar : listaL){ %>
 						<tr>
-							<form action="abmciudad" method="post">
+							<form action="abmlugar" method="post">
 								<input type="hidden" name="id" value="<%=lugar.getId()%>" ><%-- Esta en hidden y sin tabla para pasarlo como parametro --%>
 								<input type="hidden" name="ciudad_id" value="<%=lugar.getCiudad().getId()%>" >
 								<td><%=lugar.getId()%></td>

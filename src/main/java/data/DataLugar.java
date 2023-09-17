@@ -17,7 +17,7 @@ public class DataLugar {
 	    Statement stmt = null;
         try {
             stmt = DbConnector.getInstancia().getConn().createStatement();
-            rs = stmt.executeQuery("SELECT * FROM Lugares "
+            rs = stmt.executeQuery("SELECT * FROM lugares "
             		+ "inner join ciudades c on ciudad_id = c.id "
             		+ "inner join provincias p on c.provincia_id = p.id");
             if(rs != null) {
@@ -47,7 +47,7 @@ public class DataLugar {
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
-                    .prepareStatement("SELECT * FROM Lugares inner join ciudades c on ciudad_id = c.id "
+                    .prepareStatement("SELECT * FROM lugares inner join ciudades c on ciudad_id = c.id "
                     		+ "inner join provincias p on c.provincia_id = p.id WHERE id = ?");
             stmt.setInt(1, searchLugar.getId());
 
@@ -79,7 +79,7 @@ public class DataLugar {
         try {
             stmt=DbConnector.getInstancia().getConn().
                     prepareStatement(
-                            "insert into Ciudad(nombre,direccion,capacidad,ciudad_id) values(?,?,?,?)",
+                            "insert into lugares(nombre,direccion,capacidad,ciudad_id) values(?,?,?,?)",
                             PreparedStatement.RETURN_GENERATED_KEYS
                     );
             stmt.setString(1, createLugar.getNombre());
@@ -111,13 +111,14 @@ public class DataLugar {
         try{
             stmt = DbConnector.getInstancia().getConn()
                     .prepareStatement(
-                            "UPDATE Lugares SET nombre = ?,direccion = ?,"
-                            + "capacidad = ?,ciudad_id = ?"
+                            "UPDATE lugares SET nombre = ?,direccion = ?,"
+                            + "capacidad = ?,ciudad_id = ? WHERE id = ?"
                     );
             stmt.setString(1, updateLugar.getNombre());
             stmt.setString(2, updateLugar.getDireccion());
             stmt.setInt(3, updateLugar.getCapacidad());
             stmt.setInt(4, updateLugar.getCiudad().getId());
+            stmt.setInt(5, updateLugar.getId());
             stmt.executeUpdate();
         }catch (SQLException e) {
             throw e;
@@ -136,7 +137,7 @@ public class DataLugar {
         try{
             stmt = DbConnector.getInstancia().getConn()
                     .prepareStatement(
-                            "DELETE FROM Lugares WHERE id = ?"
+                            "DELETE FROM lugares WHERE id = ?"
                     );
             stmt.setInt(1, deleteLugar.getId());
             stmt.executeUpdate();

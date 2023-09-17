@@ -6,6 +6,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<script src="./js/provincias.js" defer></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Menu Provincias</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
@@ -20,10 +21,10 @@
 			<h1>Administrar Provincias</h1>		
 			<hr>
 			<h4>Nueva provincia</h4>
-			 <form class="row" action="abmprovincia" method="post">
+			 <form id="provincia_form" class="row" action="abmprovincia" method="post">
 				 <div class="col-auto">
 				 	<label class="col-form-label" for="nombre">Nombre: </label>
-				    <input type="text" name="nombre" placeholder="Nombre">						    							
+				    <input id="nombre" type="text" name="nombre" placeholder="Nombre">						    							
 				</div>
 				<div class="col-auto">		  
 				   <button type="submit" name="modo" value="1" class="btn btn-success mx-2">Crear</button> 

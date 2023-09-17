@@ -71,7 +71,9 @@ public class ABMLugar extends HttpServlet {
 				}
 			}
 			lugar.setNombre((request.getParameter("nombre") == null) ? lugar.getNombre(): request.getParameter("nombre"));
-			int idCiudad = Integer.parseInt(request.getParameter("ciudad_id"));//Parametros que se pueden haber modificado en jsp de modificar. O en el form de crear		
+			lugar.setDireccion((request.getParameter("direccion") == null) ? lugar.getDireccion(): request.getParameter("direccion"));
+			lugar.setCapacidad((request.getParameter("capacidad") == null) ? lugar.getCapacidad(): Integer.parseInt(request.getParameter("capacidad")));
+			int idCiudad = (request.getParameter("ciudad_id") == null) ? Integer.parseInt(request.getParameter("ciudad_id_hidden")): Integer.parseInt(request.getParameter("ciudad_id"));//Parametros que se pueden haber modificado en jsp de modificar. O en el form de crear		
 			for(Ciudad c : ciudades) {
 				if(c.getId() == idCiudad) {
 					lugar.setCiudad(c);
