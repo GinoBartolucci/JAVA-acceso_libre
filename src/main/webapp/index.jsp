@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 	<meta charset="utf-8">
 	<meta name="author" content="Muhamad Nauval Azhar">
@@ -19,7 +18,13 @@
 					<div class="card shadow-lg">
 						<div class="card-body p-5">
 							<h1 class="fs-4 card-title fw-bold mb-4">Login</h1>
-							<form method="POST" class="needs-validation" novalidate="" autocomplete="off">
+													    <% 
+						    String error = (String) request.getAttribute("error");
+						    if (error != null && !error.isEmpty()) {
+						    %>
+						        <p style="color: red;"><%= error %></p>
+						    <% } %>
+							<form action="login" method="POST" class="needs-validation" novalidate="" autocomplete="off">
 								<div class="mb-3">
 									<label class="mb-2 text-muted" for="email">E-Mail</label>
 									<input id="email" type="email" class="form-control" name="email" value="" required
@@ -31,11 +36,11 @@
 
 								<div class="mb-3">
 									<div class="mb-2 w-100">
-										<label class="text-muted" for="password">ContraseÃ±a</label>
+										<label class="text-muted" for="password">Contraseña</label>
 									</div>
 									<input id="password" type="password" class="form-control" name="password" required>
 									<div class="invalid-feedback">
-										Ingrese contraseÃ±a
+										Ingrese contraseña
 									</div>
 								</div>
 
@@ -49,6 +54,7 @@
 									</button>
 								</div>
 							</form>
+    					
 						</div>
 						<div class="card-footer py-3 border-0">
 							<div class="text-center">
@@ -57,7 +63,7 @@
 						</div>
 					</div>
 					<div class="text-center mt-5 text-muted">
-						Copyright &copy; 2023 &mdash; Gino bartolucci, JoaquÃ­n Betes
+						Copyright &copy; 2023 &mdash; Gino bartolucci, Joaquín Betes
 					</div>
 				</div>
 			</div>

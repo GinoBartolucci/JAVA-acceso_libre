@@ -158,14 +158,14 @@ public class DataProductora {
         }
     }
 
-    public void delete(Asistente deleteAsistente) throws SQLException, ClassNotFoundException{
+    public void delete(Productora deleteProductora) throws SQLException, ClassNotFoundException{
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
                     .prepareStatement(
                             "DELETE FROM usuarios WHERE id = ? and productora = 1"
                     );
-            stmt.setInt(1, deleteAsistente.getId());
+            stmt.setInt(1, deleteProductora.getId());
             stmt.executeUpdate();
         }catch (SQLException e) {
             throw e;
