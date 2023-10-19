@@ -17,15 +17,8 @@
 					<div class="card shadow-lg">
 						<div class="card-body p-5">
 							<h1 class="fs-4 card-title fw-bold mb-4">Registro</h1>
-							<form method="POST" class="needs-validation" novalidate="" autocomplete="off">
-								<div class="mb-3">
-									<label class="mb-2 text-muted" for="name">Nombre Completo</label>
-									<input id="name" type="text" class="form-control" name="name" value="" required autofocus>
-									<div class="invalid-feedback">
-										Ingrese nombre	
-									</div>
-								</div>
-
+							<form action="signin" method="POST" class="needs-validation" novalidate="" autocomplete="off">
+								
 								<div class="mb-3">
 									<label class="mb-2 text-muted" for="email">E-Mail</label>
 									<input id="email" type="email" class="form-control" name="email" value="" required>
@@ -46,10 +39,17 @@
 									<label class="mb-2 text-muted form-check-label" for="productora">Es una productora?</label>
 									<input id="productora" type="checkbox" class="form-check-input" name="productora">
 								</div>
+								<div class="mb-3">
+									<label class="mb-2 text-muted" for="name">Nombre Completo</label>
+									<input id="name" type="text" class="form-control" name="name" value="" required autofocus disabled>
+									<div class="invalid-feedback">
+										Ingrese nombre	
+									</div>
+								</div>
 								
 								<div class="mb-3">
 									<label class="mb-2 text-muted" for="cuil">CUIL</label>
-									<input id="cuil" type="number" class="form-control" name="cuil" required>
+									<input id="cuil" type="number" class="form-control" name="cuil" disabled>
 								    <div class="invalid-feedback">
 								    	Ingrese cuil
 							    	</div>
@@ -57,7 +57,7 @@
 								
 								<div class="mb-3">
 									<label class="mb-2 text-muted" for="telefono">Teléfono</label>
-									<input id="telefono" type="number" class="form-control" name="telefono" required>
+									<input id="telefono" type="number" class="form-control" name="telefono" disabled>
 								    <div class="invalid-feedback">
 								    	Ingrese telefono
 							    	</div>
@@ -97,5 +97,6 @@
 	</section>
 
 	<script src="js/login.js"></script>
+	<script src="js/signin.js"></script>
 </body>
 </html>

@@ -112,9 +112,9 @@ public class DataProductora {
             stmt.setString(1, createProductora.getNombre_usuario());
             stmt.setString(2, createProductora.getEmail());
             stmt.setString(3, createProductora.getPassword());
-            stmt.setString(3, createProductora.getCuil());
-            stmt.setString(3, createProductora.getTelefono());
-            stmt.setString(3, createProductora.getNombre());
+            stmt.setString(4, createProductora.getCuil());
+            stmt.setString(5, createProductora.getTelefono());
+            stmt.setString(6, createProductora.getNombre());
             stmt.executeUpdate();
             keyResultSet=stmt.getGeneratedKeys();
             if(keyResultSet!=null && keyResultSet.next()){

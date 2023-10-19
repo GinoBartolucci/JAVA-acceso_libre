@@ -57,7 +57,6 @@ public class Login extends HttpServlet {
 			e.printStackTrace();
 		}
 
-        
         // Aquí debes realizar la autenticación de usuario.
         // Por ejemplo, verificar las credenciales en una base de datos.
 

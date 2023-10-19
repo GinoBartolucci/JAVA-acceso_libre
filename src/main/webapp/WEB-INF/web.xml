@@ -69,4 +69,14 @@
     <servlet-name>Dashboard</servlet-name>
     <url-pattern>/dashboard</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>Signin</display-name>
+    <servlet-name>Signin</servlet-name>
+    <servlet-class>servlets.Signin</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Signin</servlet-name>
+    <url-pattern>/signin</url-pattern>
+  </servlet-mapping>
 </web-app>

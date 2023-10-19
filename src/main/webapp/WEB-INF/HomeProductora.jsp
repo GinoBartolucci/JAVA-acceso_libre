@@ -17,12 +17,18 @@
 				<div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
 					<div class="card shadow-lg">
 						<div class="card-body p-5">
-							<h1 class="fs-4 card-title fw-bold mb-4">Crear Show</h1>
+							<h1 class="fs-4 card-title text-center fw-bold mb-4">Administración Shows</h1>
 								<div class="d-flex align-items-center">
-
-									<button type="submit" class="btn btn-primary ms-auto">
-										Crear
-									</button>
+									<form action="verShows.jsp" method="GET">
+										<button type="submit" class="btn btn-primary p-3">
+											Ver Shows
+										</button>
+									</form>
+									<form action="crearShows.jsp" method="GET" class="ms-auto ">
+										<button type="submit" class="btn btn-primary p-3">
+											Crear Show
+										</button>
+									</form>
 								</div>
 							</form>
     					

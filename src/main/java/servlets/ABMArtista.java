@@ -18,6 +18,7 @@ import logic.LogicArtista;
  */
 public class ABMArtista extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
 
 	/**
 	 * @see HttpServlet#HttpServlet()
