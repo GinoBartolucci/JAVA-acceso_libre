@@ -11,6 +11,10 @@ public class Lugar {
 	public Lugar() {
 		
 	}
+	public Lugar(int id) {
+		super();
+		this.id = id;
+	}
 	
 	public Lugar(int id, String nombre, String direccion, int capacidad, Ciudad ciudad) {
 		super();

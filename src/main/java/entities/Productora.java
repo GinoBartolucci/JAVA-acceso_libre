@@ -4,6 +4,11 @@ public class Productora extends Usuario {
     private String cuil;
     private String nombre;
     private String telefono;
+    
+    public Productora(int id) {
+    	super(id,"", "", "", true);
+    	
+    }
 
     public Productora(int id, String nombre_usuario, String email,String password,
                       String nombre, String cuil, String telefono) {

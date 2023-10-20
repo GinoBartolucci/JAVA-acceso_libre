@@ -20,13 +20,13 @@
 							<h1 class="fs-4 card-title text-center fw-bold mb-4">Administración Shows</h1>
 								<div class="d-flex align-items-center">
 									<form action="verShows.jsp" method="GET">
-										<button type="submit" class="btn btn-primary p-3">
-											Ver Shows
+										<button type="submit" class="btn btn-primary p-2">
+											Scanear entrada
 										</button>
 									</form>
-									<form action="crearShows.jsp" method="GET" class="ms-auto ">
-										<button type="submit" class="btn btn-primary p-3">
-											Crear Show
+									<form action="abmshow" method="post" class="ms-auto ">
+										<button type="submit" class="btn btn-primary p-2">
+											Administrar Show
 										</button>
 									</form>
 								</div>

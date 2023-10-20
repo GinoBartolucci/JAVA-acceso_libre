@@ -47,8 +47,8 @@ public class DataLugar {
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
-                    .prepareStatement("SELECT * FROM lugares inner join ciudades c on ciudad_id = c.id "
-                    		+ "inner join provincias p on c.provincia_id = p.id WHERE id = ?");
+                    .prepareStatement("SELECT * FROM lugares l inner join ciudades c on ciudad_id = c.id "
+                    		+ "inner join provincias p on c.provincia_id = p.id WHERE l.id = ?");
             stmt.setInt(1, searchLugar.getId());
 
             rs = stmt.executeQuery();

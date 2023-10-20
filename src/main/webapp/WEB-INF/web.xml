@@ -79,4 +79,14 @@
     <servlet-name>Signin</servlet-name>
     <url-pattern>/signin</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ABMShow</display-name>
+    <servlet-name>ABMShow</servlet-name>
+    <servlet-class>servlets.ABMShow</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ABMShow</servlet-name>
+    <url-pattern>/abmshow</url-pattern>
+  </servlet-mapping>
 </web-app>
