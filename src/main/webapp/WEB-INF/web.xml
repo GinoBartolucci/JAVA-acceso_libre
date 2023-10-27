@@ -89,4 +89,14 @@
     <servlet-name>ABMShow</servlet-name>
     <url-pattern>/abmshow</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ABMEntrada</display-name>
+    <servlet-name>ABMEntrada</servlet-name>
+    <servlet-class>servlets.ABMEntrada</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ABMEntrada</servlet-name>
+    <url-pattern>/abmentrada</url-pattern>
+  </servlet-mapping>
 </web-app>

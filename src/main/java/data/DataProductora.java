@@ -81,6 +81,7 @@ public class DataProductora {
             stmt.setString(1, searchProductora.getEmail());
             rs = stmt.executeQuery();
             if(rs != null && rs.next()){
+            	searchProductora.setId(rs.getInt("id"));
             	searchProductora.setNombre_usuario(rs.getString("nombre_usuario"));
             	searchProductora.setEmail(rs.getString("email"));
             	searchProductora.setPassword(rs.getString("password"));

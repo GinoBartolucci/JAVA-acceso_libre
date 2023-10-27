@@ -5,7 +5,8 @@
 <%@page import="entities.Artista"%>
 <%@page import="entities.Show"%>
 <%@page import="utils.Validaciones"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,48 +21,21 @@
 	crossorigin="anonymous">
 <%
 LinkedList<Show> listaS = (LinkedList<Show>) request.getAttribute("shows");
-LinkedList<Lugar> listaL = (LinkedList<Lugar>) request.getAttribute("lugares");
 LinkedList<Ciudad> listaC = (LinkedList<Ciudad>) request.getAttribute("ciudades");
 LinkedList<Provincia> listaP = (LinkedList<Provincia>) request.getAttribute("provincias");
-LinkedList<Artista> listaA = (LinkedList<Artista>) request.getAttribute("artistas");
+
 %>
 </head>
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-				<h1>Administrar Shows</h1>
+				<h1>Buscar Shows</h1>
 				<hr>
-				<h4>Nuevo Show</h4>
 				<form id="lugar_form" class="row" action="abmshow" method="post">
 					<div class="col-auto">
-						<label class="col-form-label" for="nombre">Nombre: </label> <input
-							id="nombre" type="text" name="nombre">
-					</div>
-					<div class="col-auto">
-						<label class="col-form-label" for="precio">Precio: </label> <input
-							id="precio" type="number" name="precio" step="0.01">
-					</div>
-					<div class="col-auto">
-						<label class="col-form-label" for="fecha">Fecha: </label> <input
-							id="fecha" type="datetime-local" name="fecha">
-					</div>
-					<div class="col-auto">
-						<label class="col-form-label" for="artista_id">Artista: </label>
-						<select id="artista_id" name="artista_id">
-							<option value=""></option>
-							<%
-							for (Artista art : listaA) {
-							%>
-							<option value="<%=art.getId()%>"><%=art.getNombre()%></option>
-							<%
-							}
-							%>
-						</select>
-					</div>
-					<div class="col-auto">
-						<label class="col-form-label" for="provincia_id">Provincia: </label>
-						<select id="provincia_id" name="provincia_id">
+						<label class="col-form-label" for="provincia_id">Provincia:
+						</label> <select id="provincia_id" name="provincia_id">
 							<option value=""></option>
 							<%
 							for (Provincia pro : listaP) {
@@ -87,22 +61,8 @@ LinkedList<Artista> listaA = (LinkedList<Artista>) request.getAttribute("artista
 						</select>
 					</div>
 					<div class="col-auto">
-						<label class="col-form-label" for="lugar_id">Lugar: </label> <select
-							id="lugar_id" name="lugar_id" disabled>
-							<option value=""></option>
-							<%
-							for (Lugar lugar : listaL) {
-							%>
-							<option value="<%=lugar.getId()%>"
-								ciudad_id="<%=lugar.getCiudad().getId()%>"><%=lugar.getNombre()%></option>
-							<%
-							}
-							%>
-						</select>
-					</div>
-					<div class="col-auto">
-						<button type="submit" name="modo" value="1"
-							class="btn btn-success mx-2">Crear</button>
+						<button type="submit" name="modo" value="6"
+							class="btn btn-success mx-2">Buscar</button>
 					</div>
 				</form>
 				<hr>
@@ -117,8 +77,8 @@ LinkedList<Artista> listaA = (LinkedList<Artista>) request.getAttribute("artista
 							<th scope="col">Artista</th>
 							<th scope="col">Direccion</th>
 							<th scope="col">Ciudad</th>
-							<th scope="col">Editar</th>
-							<th scope="col">Eliminar</th>
+							<th scope="col">Lugar</th>
+							<th scope="col">Entrada</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -136,10 +96,9 @@ LinkedList<Artista> listaA = (LinkedList<Artista>) request.getAttribute("artista
 								<td><%=show.getArtista().getNombre()%></td>
 								<td><%=show.getLugar().getDireccion()%></td>
 								<td><%=show.getLugar().getCiudad().getNombre()%></td>
-								<td><button type="submit" name="modo" value="3"
-										class="btn btn-primary">Editar</button></td>
-								<td><button type="submit" name="modo" value="2"
-										class="btn btn-danger">Eliminar</button></td>
+								<td><%=show.getLugar().getNombre()%></td>
+								<td><button type="submit" name="modo" value="7"
+										class="btn btn-success">Comprar entrada</button></td>
 							</form>
 						</tr>
 						<%

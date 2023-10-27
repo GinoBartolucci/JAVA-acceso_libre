@@ -2,8 +2,7 @@
 <%@page import="entities.Lugar" %>
 <%@page import="entities.Ciudad" %>
 <%@page import="entities.Provincia" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,8 +30,8 @@
 				    <input type="text" readonly name="id" placeholder="id" value="<%=l.getId()%>">
 				 	<label class="col-form-label" for="nombre">Nombre: </label>
 				    <input type="text" name="nombre" placeholder="Nombre" value="<%=l.getNombre()%>">
-				    <label class="col-form-label" for="nombre">Dirección: </label>
-				    <input type="text" name="direccion" placeholder="Dirección" value="<%=l.getDireccion()%>">
+				    <label class="col-form-label" for="nombre">DirecciÃ³n: </label>
+				    <input type="text" name="direccion" placeholder="DirecciÃ³n" value="<%=l.getDireccion()%>">
 				    <label class="col-form-label" for="nombre">Capacidad: </label>
 				    <input type="text" name="capacidad" type="number" placeholder="Capacidad" value="<%=l.getCapacidad()%>">
 				    <label class="col-form-label" for="provincia">Provincia: </label>				    

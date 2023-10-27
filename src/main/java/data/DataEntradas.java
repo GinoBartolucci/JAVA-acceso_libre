@@ -77,7 +77,7 @@ public class DataEntradas {
         try {
             stmt=DbConnector.getInstancia().getConn().
                     prepareStatement(
-                            "insert into Entrada(asistente_id, show_id, codigo, nombre, apellido,"
+                            "insert into entradas(asistente_id, show_id, codigo, nombre, apellido,"
                             + " tipo_doc, documento, validez) values(?, ?, ?, ?, ?, ?, ?, ?)",
                             PreparedStatement.RETURN_GENERATED_KEYS
                     );
@@ -139,14 +139,14 @@ public class DataEntradas {
         }
     }
 
-    public void delete(Entrada deleteEntrada) throws SQLException, ClassNotFoundException {
+    public void delete(int id) throws SQLException, ClassNotFoundException {
         PreparedStatement stmt = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
                     .prepareStatement(
                             "DELETE FROM entradas WHERE id = ?"
                     );
-            stmt.setInt(1, deleteEntrada.getId());
+            stmt.setInt(1, id);
             stmt.executeUpdate();
         }catch (SQLException e) {
             throw e;

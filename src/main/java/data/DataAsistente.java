@@ -74,6 +74,7 @@ public class DataAsistente {
             stmt.setString(1, searchAsistente.getEmail());
             rs = stmt.executeQuery();
             if(rs != null && rs.next()){
+            	searchAsistente.setId(rs.getInt("id"));
                 searchAsistente.setNombre_usuario(rs.getString("nombre_usuario"));
                 searchAsistente.setEmail(rs.getString("email"));
                 searchAsistente.setPassword(rs.getString("password"));

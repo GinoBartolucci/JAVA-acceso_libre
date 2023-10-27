@@ -30,8 +30,9 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
-	protected void setSession(HttpServletRequest request, String email, String password, String nombre_usuario, boolean productora, String cuil, String nombre, String telefono) {
+	protected void setSession(HttpServletRequest request,int id, String email, String password, String nombre_usuario, boolean productora, String cuil, String nombre, String telefono) {
     	HttpSession session = request.getSession();
+    	session.setAttribute("id", id);
         session.setAttribute("email", email);
         session.setAttribute("password", password);
         session.setAttribute("nombre_usuario", nombre_usuario);
@@ -57,12 +58,8 @@ public class Login extends HttpServlet {
 			e.printStackTrace();
 		}
 
-        // Aquí debes realizar la autenticación de usuario.
-        // Por ejemplo, verificar las credenciales en una base de datos.
-
         if (asistente.getEmail().equals(email) && asistente.getPassword().equals(password)) {
-        	HttpSession session = request.getSession();
-        	this.setSession(request, email, password, asistente.getNombre_usuario(), false, null, null, null);
+        	this.setSession(request,asistente.getId(), email, password, asistente.getNombre_usuario(), false, null, null, null);
             try {
 				response.sendRedirect("dashboard");
 			} catch (IOException e) {
@@ -70,7 +67,7 @@ public class Login extends HttpServlet {
 			} 
         } 
         else if ( productora.getEmail().equals(email) && productora.getPassword().equals(password) ) {
-        	this.setSession(request, email, password, productora.getNombre_usuario(), true, productora.getCuil(), productora.getNombre(), productora.getTelefono());
+        	this.setSession(request,productora.getId(), email, password, productora.getNombre_usuario(), true, productora.getCuil(), productora.getNombre(), productora.getTelefono());
             try {
 				response.sendRedirect("dashboard");
 			} catch (IOException e) {
