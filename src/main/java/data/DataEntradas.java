@@ -38,24 +38,18 @@ public class DataEntradas {
 	        return ListaEntradas;
 	    }
 
-    public void findById(Entrada searchEntrada) throws SQLException, ClassNotFoundException {
+    public Entrada findById(Entrada searchEntrada) throws SQLException, ClassNotFoundException {
         ResultSet rs = null;
         PreparedStatement stmt = null;
+        Entrada entrada = null;
         try{
             stmt = DbConnector.getInstancia().getConn()
-                    .prepareStatement("SELECT * FROM entradas WHERE id = ?");
-            stmt.setInt(1, searchEntrada.getId());
-
+                    .prepareStatement("SELECT * FROM entradas WHERE asistente_id = ? AND show_id = ?");
+            stmt.setInt(1, searchEntrada.getAsistente_id());
+            stmt.setInt(2, searchEntrada.getShow_id());
             rs = stmt.executeQuery();
             if(rs != null && rs.next()){
-                searchEntrada.setAsistente_id(rs.getInt("asistente_id"));
-                searchEntrada.setShow_id(rs.getInt("show_id"));
-                searchEntrada.setCodigo(rs.getString("codigo"));
-                searchEntrada.setNombre( rs.getString("nombre"));
-                searchEntrada.setApellido(rs.getString("apellido"));
-                searchEntrada.setTipo_doc(rs.getString("tipo_doc"));
-                searchEntrada.setDocumento(rs.getString("documento"));
-                searchEntrada.setValidez(rs.getBoolean("validez"));
+                entrada = new Entrada(rs.getInt("asistente_id"), rs.getInt("show_id"), rs.getString("codigo"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("tipo_doc"), rs.getString("documento"), rs.getBoolean("validez") );
             }
         }catch (SQLException e) {
             throw e;
@@ -68,7 +62,34 @@ public class DataEntradas {
                 throw e;
             }
         }
-        //return p;
+        return entrada;
+    }
+    
+    public LinkedList<Entrada> findByAsistenteId(Entrada searchEntrada) throws SQLException, ClassNotFoundException {
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+        LinkedList<Entrada> entradas = new LinkedList<Entrada>();
+        try{
+            stmt = DbConnector.getInstancia().getConn()
+                    .prepareStatement("SELECT * FROM entradas WHERE asistente_id = ?");
+            stmt.setInt(1, searchEntrada.getAsistente_id());
+            rs = stmt.executeQuery();
+            if(rs != null && rs.next()){
+                Entrada entrada = new Entrada(rs.getInt("asistente_id"), rs.getInt("show_id"), rs.getString("codigo"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("tipo_doc"), rs.getString("documento"), rs.getBoolean("validez") );
+                entradas.add(entrada);
+            }
+        }catch (SQLException e) {
+            throw e;
+        }finally {
+            try{
+                if(rs != null) rs.close();
+                if(stmt != null) stmt.close();
+                DbConnector.getInstancia().releaseConn();
+            }catch (Exception e) {
+                throw e;
+            }
+        }
+        return entradas;
     }
 
     public void create(Entrada createEntrada) throws SQLException, ClassNotFoundException  {

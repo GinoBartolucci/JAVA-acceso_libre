@@ -96,13 +96,13 @@ public class DataShow {
 	        ResultSet rs = null;
 	        PreparedStatement stmt = null;
 	        try{
-	            stmt = DbConnector.getInstancia().getConn()
-	                    .prepareStatement("SELECT * FROM shows "
-	    	            		+ "inner join artistas a on artista_id = a.id"
-	    	            		+ "inner join lugares l on lugar_id = a.id"
-	    	            		+ "inner join ciudades c on ciudad_id = c.id "
-	    	            		+ "inner join provincias p on c.provincia_id = p.id"
-	                    		+ "WHERE id = ?");
+	        	stmt = DbConnector.getInstancia().getConn()
+	        		    .prepareStatement("SELECT * FROM shows " +
+	        		                     "INNER JOIN artistas a ON artista_id = a.id " +
+	        		                     "INNER JOIN lugares l ON lugar_id = a.id " +
+	        		                     "INNER JOIN ciudades c ON ciudad_id = c.id " +
+	        		                     "INNER JOIN provincias p ON c.provincia_id = p.id " +
+	        		                     "WHERE id = ?");
 	            stmt.setInt(1, searchShow.getId());
 
 	            rs = stmt.executeQuery();

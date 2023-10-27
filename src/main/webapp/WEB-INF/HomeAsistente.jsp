@@ -19,7 +19,7 @@
 						<div class="card-body p-5">
 							<h1 class="fs-4 card-title fw-bold mb-4">Reserva Entradas</h1>
 								<div class="d-flex align-items-center">
-									<form action="verShows.jsp" method="GET">
+									<form action="abmentrada" method="get">
 										<button type="submit" class="btn btn-primary p-2">
 											Ver entradas
 										</button>

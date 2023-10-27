@@ -17,8 +17,6 @@ import java.text.SimpleDateFormat;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
-import logic.LogicShow;
-
 /**
  * Servlet implementation class ABMProvincia
  */
@@ -39,33 +37,30 @@ public class ABMEntrada extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
-		int productora_id = (int) session.getAttribute("id");
+		int asistente_id = (int) session.getAttribute("id");
 		LogicShow ls = new LogicShow();
-		LogicLugar ll = new LogicLugar();
-		LinkedList<Lugar> lugares = null;
+		LogicEntrada le = new LogicEntrada();
+		LinkedList<Entrada> entradas = null;
 		LinkedList<Show> shows = null;
-		Lugar lugar = new Lugar();
-		lugar.setId(2);
-
 		try {
-			shows = ls.getAll();
-
+			Entrada entrada = new Entrada();
+			entrada.setAsistente_id(asistente_id);
+			entradas = le.findByAsistenteId(entrada);
+			System.out.println("Entrada: "+entrada.getAsistente_id());
+			for (Entrada e : entradas) {
+			   Show show = new Show();
+			   show.setId(e.getShow_id());
+			   System.out.println("Show: "+show.getId());
+			   ls.findById(show);
+			   shows.add(show);
+			}
+			request.setAttribute("entradas", entradas);
+			request.setAttribute("shows", shows);
 		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			response.sendError(502);
 		}
-
-		int id = (request.getParameter("id") == null) ? 0 : Integer.parseInt(request.getParameter("id"));
-		String nombre = request.getParameter("nombre");
-		try {
-			ls.create("joaquinasd", (float) 3, "2023-10-25T21:39", 5, productora_id, 2);
-		} catch (ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		response.getWriter().append("Get request: " + session.getAttribute("id"));
+		request.getRequestDispatcher("WEB-INF\\VerEntradas.jsp").forward(request, response);
 	}
 
 	/**
@@ -108,10 +103,17 @@ public class ABMEntrada extends HttpServlet {
 
 				if (asistente_id != null && show_id != null && nombre != null && apellido != null && tipo_doc != null
 						&& documento != null) {
+					
 					Entrada entrada = new Entrada(asistente_id, show_id, codigo, nombre, apellido, tipo_doc, documento,
 							validez);
-					le.create(entrada);
-					response.setStatus(201);
+					if (le.findById(entrada) == null) {
+						
+						le.create(entrada);
+						response.setStatus(201);
+						request.getRequestDispatcher("WEB-INF\\HomeAsistente.jsp").forward(request, response);
+					}
+					else request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+
 				} else {
 					response.setStatus(400);
 				}
@@ -128,7 +130,7 @@ public class ABMEntrada extends HttpServlet {
 				break;
 			}
 		} catch (ClassNotFoundException | SQLException e) {
-			response.sendError(502);
+			response.sendError(503);
 		} finally {
 		}
 		if (modo != 3) {

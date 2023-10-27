@@ -1,8 +1,5 @@
 <%@page import="java.util.LinkedList"%>
-<%@page import="entities.Lugar"%>
-<%@page import="entities.Ciudad"%>
-<%@page import="entities.Provincia"%>
-<%@page import="entities.Artista"%>
+<%@page import="entities.Entrada"%>
 <%@page import="entities.Show"%>
 <%@page import="utils.Validaciones"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -21,62 +18,24 @@
 	crossorigin="anonymous">
 <%
 LinkedList<Show> listaS = (LinkedList<Show>) request.getAttribute("shows");
-LinkedList<Ciudad> listaC = (LinkedList<Ciudad>) request.getAttribute("ciudades");
-LinkedList<Provincia> listaP = (LinkedList<Provincia>) request.getAttribute("provincias");
-
+LinkedList<Entrada> listaE = (LinkedList<Entrada>) request.getAttribute("entradas");
 %>
 </head>
 <body>
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-				<h1>Buscar Shows</h1>
+				<h1>Entradas Shows</h1>
 				<hr>
-				<form id="lugar_form" class="row" action="abmshow" method="post">
-					<div class="col-auto">
-						<label class="col-form-label" for="provincia_id">Provincia:
-						</label> <select id="provincia_id" name="provincia_id">
-							<option value=""></option>
-							<%
-							for (Provincia pro : listaP) {
-							%>
-							<option value="<%=pro.getId()%>"><%=pro.getNombre()%></option>
-							<%
-							}
-							%>
-						</select>
-					</div>
-					<div class="col-auto">
-						<label class="col-form-label" for="ciudad_id">Ciudad: </label> <select
-							id="ciudad_id" name="ciudad_id" disabled>
-							<option value="" default="yes"></option>
-							<%
-							for (Ciudad ciudad : listaC) {
-							%>
-							<option value="<%=ciudad.getId()%>"
-								provincia_id="<%=ciudad.getProvincia().getId()%>"><%=ciudad.getNombre()%></option>
-							<%
-							}
-							%>
-						</select>
-					</div>
-					<div class="col-auto">
-						<button type="submit" name="modo" value="6"
-							class="btn btn-success mx-2">Buscar</button>
-					</div>
-				</form>
-				<hr>
-				<h4>Listado Shows</h4>
+				<h4>Tus entradas</h4>
 				<table class="table table table-striped">
 					<thead>
 						<tr>
 							<th scope="col">#</th>
 							<th scope="col">Nombre</th>
 							<th scope="col">Fecha</th>
-							<th scope="col">Precio</th>
 							<th scope="col">Artista</th>
 							<th scope="col">Direccion</th>
-							<th scope="col">Ciudad</th>
 							<th scope="col">Lugar</th>
 							<th scope="col">Entrada</th>
 						</tr>
@@ -86,19 +45,18 @@ LinkedList<Provincia> listaP = (LinkedList<Provincia>) request.getAttribute("pro
 						for (Show show : listaS) {
 						%>
 						<tr>
-							<form action="abmshow" method="post">
+							<form action="abmentrada" method="post">
 								<input type="hidden" name="id" value="<%=show.getId()%>"
 									readonly>
 								<td><%=show.getId()%></td>
 								<td><%=show.getNombre()%></td>
 								<td><%=show.getFecha()%></td>
-								<td>$<%=show.getPrecio()%></td>
 								<td><%=show.getArtista().getNombre()%></td>
 								<td><%=show.getLugar().getDireccion()%></td>
 								<td><%=show.getLugar().getCiudad().getNombre()%></td>
 								<td><%=show.getLugar().getNombre()%></td>
 								<td><button type="submit" name="modo" value="7"
-										class="btn btn-success">Comprar entrada</button></td>
+										class="btn btn-success">Ver entrada</button></td>
 							</form>
 						</tr>
 						<%
