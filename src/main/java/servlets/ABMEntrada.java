@@ -42,16 +42,15 @@ public class ABMEntrada extends HttpServlet {
 		LogicShow ls = new LogicShow();
 		LogicEntrada le = new LogicEntrada();
 		LinkedList<Entrada> entradas = null;
-		LinkedList<Show> shows = null;
+		LinkedList<Show> shows = new LinkedList<Show>();
 		try {
 			Entrada entrada = new Entrada();
 			entrada.setAsistente_id(asistente_id);
 			entradas = le.findByAsistenteId(entrada);
-			System.out.println("Entrada: "+entrada.getAsistente_id());
+			
 			for (Entrada e : entradas) {
 			   Show show = new Show();
 			   show.setId(e.getShow_id());
-			   System.out.println("Show: "+show.getId());
 			   ls.findById(show);
 			   shows.add(show);
 			}
@@ -90,7 +89,6 @@ public class ABMEntrada extends HttpServlet {
 				asistente_id = Validaciones.validateInt(request.getParameter("asistente_id"));
 				show_id = Validaciones.validateInt(request.getParameter("show_id"));
 				codigo = "" + Validaciones.generateRandomNumber();
-				System.out.println(codigo);
 				nombre = Validaciones.validateNombre(request.getParameter("nombre"));
 				apellido = Validaciones.validateNombre(request.getParameter("apellido"));
 				tipo_doc = Validaciones.validateTipoDoc(request.getParameter("tipo_doc"));
@@ -119,23 +117,22 @@ public class ABMEntrada extends HttpServlet {
 				}
 				break;
 			case 2:
-				response.setStatus(200);
+				asistente_id = (int) session.getAttribute("id");
+				show_id = Validaciones.validateInt(request.getParameter("show_id"));
+				Entrada entrada = new Entrada();
+				entrada.setAsistente_id(asistente_id);
+				entrada.setShow_id(show_id);
+				entrada = le.findById(entrada);
+				request.setAttribute("entrada", entrada);
+				request.getRequestDispatcher("WEB-INF\\Entrada.jsp").forward(request, response);
 				break;
 			case 3:
 				response.setStatus(307);
 				request.getRequestDispatcher("WEB-INF\\MShow.jsp").forward(request, response);
 				break;
-			case 4:
-				response.setStatus(200);
-				break;
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			response.sendError(503);
-		} finally {
-		}
-		if (modo != 3) {
-
-		}
-
+		} 
 	}
 }

@@ -69,23 +69,33 @@ public class DataEntradas {
         ResultSet rs = null;
         PreparedStatement stmt = null;
         LinkedList<Entrada> entradas = new LinkedList<Entrada>();
-        try{
+        try {
             stmt = DbConnector.getInstancia().getConn()
                     .prepareStatement("SELECT * FROM entradas WHERE asistente_id = ?");
             stmt.setInt(1, searchEntrada.getAsistente_id());
             rs = stmt.executeQuery();
-            if(rs != null && rs.next()){
-                Entrada entrada = new Entrada(rs.getInt("asistente_id"), rs.getInt("show_id"), rs.getString("codigo"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("tipo_doc"), rs.getString("documento"), rs.getBoolean("validez") );
+            
+            while (rs.next()) {
+                Entrada entrada = new Entrada(
+                    rs.getInt("asistente_id"),
+                    rs.getInt("show_id"),
+                    rs.getString("codigo"),
+                    rs.getString("nombre"),
+                    rs.getString("apellido"),
+                    rs.getString("tipo_doc"),
+                    rs.getString("documento"),
+                    rs.getBoolean("validez")
+                );
                 entradas.add(entrada);
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             throw e;
-        }finally {
-            try{
-                if(rs != null) rs.close();
-                if(stmt != null) stmt.close();
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
                 DbConnector.getInstancia().releaseConn();
-            }catch (Exception e) {
+            } catch (Exception e) {
                 throw e;
             }
         }

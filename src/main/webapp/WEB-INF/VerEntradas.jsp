@@ -46,7 +46,7 @@ LinkedList<Entrada> listaE = (LinkedList<Entrada>) request.getAttribute("entrada
 						%>
 						<tr>
 							<form action="abmentrada" method="post">
-								<input type="hidden" name="id" value="<%=show.getId()%>"
+								<input type="hidden" name="show_id" value="<%=show.getId()%>"
 									readonly>
 								<td><%=show.getId()%></td>
 								<td><%=show.getNombre()%></td>
@@ -55,7 +55,7 @@ LinkedList<Entrada> listaE = (LinkedList<Entrada>) request.getAttribute("entrada
 								<td><%=show.getLugar().getDireccion()%></td>
 								<td><%=show.getLugar().getCiudad().getNombre()%></td>
 								<td><%=show.getLugar().getNombre()%></td>
-								<td><button type="submit" name="modo" value="7"
+								<td><button type="submit" name="modo" value="2"
 										class="btn btn-success">Ver entrada</button></td>
 							</form>
 						</tr>

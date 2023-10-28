@@ -97,12 +97,13 @@ public class DataShow {
 	        PreparedStatement stmt = null;
 	        try{
 	        	stmt = DbConnector.getInstancia().getConn()
-	        		    .prepareStatement("SELECT * FROM shows " +
-	        		                     "INNER JOIN artistas a ON artista_id = a.id " +
-	        		                     "INNER JOIN lugares l ON lugar_id = a.id " +
-	        		                     "INNER JOIN ciudades c ON ciudad_id = c.id " +
-	        		                     "INNER JOIN provincias p ON c.provincia_id = p.id " +
-	        		                     "WHERE id = ?");
+	        		    .prepareStatement("SELECT s.*, a.id, a.nombre, l.id , l.nombre , l.direccion , l.capacidad, c.id , c.nombre, p.id , p.nombre "
+	        		    		+ "FROM shows s "
+	        		    		+ "INNER JOIN artistas a ON s.artista_id = a.id "
+	        		    		+ "INNER JOIN lugares l ON s.lugar_id = l.id "
+	        		    		+ "INNER JOIN ciudades c ON l.ciudad_id = c.id "
+	        		    		+ "INNER JOIN provincias p ON c.provincia_id = p.id "
+	        		    		+ "WHERE s.id = ?;");
 	            stmt.setInt(1, searchShow.getId());
 
 	            rs = stmt.executeQuery();
@@ -119,6 +120,7 @@ public class DataShow {
 	                searchShow.setProductora_id(rs.getInt("productora_id"));
 	                searchShow.setArtista(a);
 	            }
+	            else searchShow= null;
 	        }catch (SQLException e) {
 	            throw e;
 	        }finally {
