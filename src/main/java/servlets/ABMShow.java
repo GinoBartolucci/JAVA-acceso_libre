@@ -135,7 +135,8 @@ public class ABMShow extends HttpServlet {
 						response.setStatus(201);
 					}
 					else {
-						response.setStatus(400);
+						//response.setStatus(400);
+						response.sendError(400, "WEB-INF\\Error.jsp");
 					}
 
 					break;
