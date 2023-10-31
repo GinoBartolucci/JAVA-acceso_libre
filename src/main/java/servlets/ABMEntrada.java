@@ -93,15 +93,14 @@ public class ABMEntrada extends HttpServlet {
 				apellido = Validaciones.validateNombre(request.getParameter("apellido"));
 				tipo_doc = Validaciones.validateTipoDoc(request.getParameter("tipo_doc"));
 				if (tipo_doc != null) {
-					documento = "" + Validaciones.validateDocumento(request.getParameter("documento"), tipo_doc);
+					documento = Validaciones.validateDocumento(request.getParameter("documento"), tipo_doc);
 				} else
 					documento = null;
-
 				validez = true;
 
 				if (asistente_id != null && show_id != null && nombre != null && apellido != null && tipo_doc != null
 						&& documento != null) {
-					
+
 					Entrada entrada = new Entrada(asistente_id, show_id, codigo, nombre, apellido, tipo_doc, documento,
 							validez);
 					if (le.findById(entrada) == null) {
@@ -110,10 +109,14 @@ public class ABMEntrada extends HttpServlet {
 						response.setStatus(201);
 						request.getRequestDispatcher("WEB-INF\\HomeAsistente.jsp").forward(request, response);
 					}
-					else request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+					else {
+						request.setAttribute("error", "Ya posee esta entrada.");
+						request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+					}
 
 				} else {
-					response.setStatus(400);
+					request.setAttribute("error", "Uno de los valores es incorrecto.");
+					request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
 				}
 				break;
 			case 2:
@@ -130,7 +133,33 @@ public class ABMEntrada extends HttpServlet {
 				response.setStatus(307);
 				request.getRequestDispatcher("WEB-INF\\MShow.jsp").forward(request, response);
 				break;
-			}
+			case 4:
+				response.setStatus(307);
+				request.getRequestDispatcher("WEB-INF\\ScanearEntrada.jsp").forward(request, response);
+				break;
+			case 5:
+				Entrada entradaScaner = new Entrada();
+				entradaScaner.setCodigo(request.getParameter("codigo")); 
+				entradaScaner.setDocumento(request.getParameter("documento"));
+				entradaScaner = le.scanearEntrada(entradaScaner);
+				if (entradaScaner != null) {
+					if(entradaScaner.isValidez()) {
+						entradaScaner.setValidez(false);
+						le.update(entradaScaner);
+						request.setAttribute("resultado", "Entrada Scaneada exitosamente!");
+						request.getRequestDispatcher("WEB-INF\\ResultadoScanner.jsp").forward(request, response);
+					}
+					else {
+						request.setAttribute("resultado", "La entrada ya ha sido scaneada");
+						request.getRequestDispatcher("WEB-INF\\ResultadoScanner.jsp").forward(request, response);
+						}
+				}
+				else {
+					request.setAttribute("resultado", "Datos invalidos");
+					request.getRequestDispatcher("WEB-INF\\ResultadoScanner.jsp").forward(request, response);
+					}
+			break;
+		}
 		} catch (ClassNotFoundException | SQLException e) {
 			response.sendError(503);
 		} 

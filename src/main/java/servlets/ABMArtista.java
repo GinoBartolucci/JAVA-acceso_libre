@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import entities.Ciudad;
 import entities.Artista;
 import logic.LogicArtista;
+import utils.Validaciones;
 
 /**
  * Servlet implementation class ABMProvincia
@@ -66,12 +67,18 @@ public class ABMArtista extends HttpServlet {
 					break;
 				}
 			}
-			a.setNombre((request.getParameter("nombre") == null) ? a.getNombre(): request.getParameter("nombre"));
+			a.setNombre((request.getParameter("nombre") == null) ? a.getNombre(): Validaciones.validateNombre(request.getParameter("nombre")));
 			try {
 				switch (modo) {
-					case 1:						
-						la.create(a);	
-						response.setStatus(201);
+					case 1:				
+						if (a.getNombre() != null) {
+							la.create(a);	
+							response.setStatus(201);
+						}else {
+							request.setAttribute("error", "Nombre inválido.");
+							request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+						}
+
 						break;
 					case 2:
 						la.delete(a);
@@ -84,7 +91,13 @@ public class ABMArtista extends HttpServlet {
 						break;
 					case 4:
 						response.setStatus(200);
-						la.update(a);					
+						if (a.getNombre() != null) {
+							la.update(a);		
+							response.setStatus(201);
+						}else {
+							request.setAttribute("error", "Nombre inválido.");
+							request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+						}			
 						break;
 				}
 				

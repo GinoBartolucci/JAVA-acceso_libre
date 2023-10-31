@@ -5,7 +5,7 @@ public class Lugar {
 	private int id;
 	private String nombre;
 	private String direccion;
-	private int capacidad;
+	private Integer capacidad;
 	private Ciudad ciudad;
 	
 	public Lugar() {

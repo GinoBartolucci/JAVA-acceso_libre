@@ -19,8 +19,8 @@
 						<div class="card-body p-5">
 							<h1 class="fs-4 card-title text-center fw-bold mb-4">Administración Shows</h1>
 								<div class="d-flex align-items-center">
-									<form action="verShows.jsp" method="GET">
-										<button type="submit" class="btn btn-primary p-2">
+									<form action="abmentrada" method="post">
+										<button type="submit" name="modo" value="4" class="btn btn-primary p-2">
 											Scanear entrada
 										</button>
 									</form>
@@ -30,8 +30,6 @@
 										</button>
 									</form>
 								</div>
-							</form>
-    					
 						</div>
 					</div>
 					<div class="text-center mt-5 text-muted">

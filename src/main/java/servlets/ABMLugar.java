@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import logic.LogicLugar;
 import logic.LogicCiudad;
 import logic.LogicProvincia;
+import utils.Validaciones;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -70,9 +71,9 @@ public class ABMLugar extends HttpServlet {
 					break;
 				}
 			}
-			lugar.setNombre((request.getParameter("nombre") == null) ? lugar.getNombre(): request.getParameter("nombre"));
+			lugar.setNombre((request.getParameter("nombre") == null) ? lugar.getNombre(): Validaciones.validateNombre(request.getParameter("nombre")));
 			lugar.setDireccion((request.getParameter("direccion") == null) ? lugar.getDireccion(): request.getParameter("direccion"));
-			lugar.setCapacidad((request.getParameter("capacidad") == null) ? lugar.getCapacidad(): Integer.parseInt(request.getParameter("capacidad")));
+			lugar.setCapacidad((request.getParameter("capacidad") == null) ? lugar.getCapacidad(): Validaciones.validateInt(request.getParameter("capacidad")));
 			int idCiudad = (request.getParameter("ciudad_id") == null) ? Integer.parseInt(request.getParameter("ciudad_id_hidden")): Integer.parseInt(request.getParameter("ciudad_id"));//Parametros que se pueden haber modificado en jsp de modificar. O en el form de crear		
 			for(Ciudad c : ciudades) {
 				if(c.getId() == idCiudad) {
@@ -84,8 +85,14 @@ public class ABMLugar extends HttpServlet {
 			try {
 				switch (modo) {
 					case 1:
-						ll.create(lugar);	
-						response.setStatus(201);
+						if (lugar.getNombre() != null) {
+							ll.create(lugar);	
+							response.setStatus(201);
+						}
+						else {
+							request.setAttribute("error", "Nombre inválido.");
+							request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+						}
 						break;
 					case 2:
 						ll.delete(lugar);	
@@ -96,8 +103,14 @@ public class ABMLugar extends HttpServlet {
 						request.getRequestDispatcher("WEB-INF\\MLugar.jsp").forward(request, response);
 						break;
 					case 4:
-						ll.update(lugar);
-						response.setStatus(200);
+						if (lugar.getNombre() != null) {
+							ll.update(lugar);	
+							response.setStatus(200);
+						}
+						else {
+							request.setAttribute("error", "Nombre inválido.");
+							request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+						}
 						break;
 				}
 			}

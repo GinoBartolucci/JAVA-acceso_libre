@@ -19,6 +19,13 @@ public class LogicEntrada {
   public Entrada findById(Entrada e) throws SQLException, ClassNotFoundException {
 	  return de.findById(e);
   }
+  public Entrada scanearEntrada(Entrada searchEntrada) throws SQLException, ClassNotFoundException {
+	  return de.scanearEntrada(searchEntrada);
+  }
+  public boolean codigoExist(Entrada searchEntrada) throws SQLException, ClassNotFoundException {
+	  if ( de.codigoExist(searchEntrada) == null ) return false;
+	  else return true;
+  }
   public LinkedList<Entrada> findByAsistenteId(Entrada e) throws SQLException, ClassNotFoundException {
 	  return de.findByAsistenteId(e);
   }

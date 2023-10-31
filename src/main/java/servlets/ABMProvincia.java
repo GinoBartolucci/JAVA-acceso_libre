@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import entities.Ciudad;
 import entities.Provincia;
 import logic.LogicProvincia;
+import utils.Validaciones;
 
 /**
  * Servlet implementation class ABMProvincia
@@ -65,12 +66,18 @@ public class ABMProvincia extends HttpServlet {
 					break;
 				}
 			}
-			p.setNombre((request.getParameter("nombre") == null) ? p.getNombre(): request.getParameter("nombre"));
+			p.setNombre((request.getParameter("nombre") == null) ? p.getNombre(): Validaciones.validateNombre(request.getParameter("nombre")));
 			try {
 				switch (modo) {
-					case 1:						
-						lp.create(p);	
-						response.setStatus(201);
+					case 1:		
+						if (p.getNombre() != null) {
+							lp.create(p);	
+							response.setStatus(201);
+						}
+						else {
+							request.setAttribute("error", "Nombre inválido.");
+							request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+						}
 						break;
 					case 2:
 						lp.delete(p);
@@ -82,8 +89,14 @@ public class ABMProvincia extends HttpServlet {
 						request.getRequestDispatcher("WEB-INF\\MProvincia.jsp").forward(request, response);
 						break;
 					case 4:
-						response.setStatus(200);
-						lp.update(p);					
+						if (p.getNombre() != null) {
+							lp.update(p);	
+							response.setStatus(200);
+						}
+						else {
+							request.setAttribute("error", "Nombre inválido.");
+							request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+						}
 						break;
 				}
 				

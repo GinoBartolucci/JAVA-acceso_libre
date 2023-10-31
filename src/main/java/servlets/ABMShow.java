@@ -135,8 +135,8 @@ public class ABMShow extends HttpServlet {
 						response.setStatus(201);
 					}
 					else {
-						//response.setStatus(400);
-						response.sendError(400, "WEB-INF\\Error.jsp");
+						request.setAttribute("error", "Uno de los valores es incorrecto.");
+						request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
 					}
 
 					break;
@@ -156,8 +156,14 @@ public class ABMShow extends HttpServlet {
 					fecha = Validaciones.validateSQLDateTime(request.getParameter("fecha"));
 					lugar_id = Validaciones.validateInt(request.getParameter("lugar_id"));
 					artista_id = Validaciones.validateInt(request.getParameter("artista_id"));
-					response.setStatus(200);
-					ls.update(nombre, precio, fecha, lugar_id, user_id, artista_id, show_id);
+					if (nombre != null && precio != null && fecha != null && lugar_id != null && artista_id != null) {
+						ls.update(nombre, precio, fecha, lugar_id, user_id, artista_id, show_id);
+						response.setStatus(201);
+					}
+					else {
+						request.setAttribute("error", "Uno de los valores es incorrecto.");
+						request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+					}
 					break;
 				case 6:
 					response.setStatus(307);
@@ -172,10 +178,8 @@ public class ABMShow extends HttpServlet {
 					request.getRequestDispatcher("WEB-INF\\ComprarEntrada.jsp").forward(request, response);
 					break;
 				}
-
 			} catch (ClassNotFoundException | SQLException e) {
 				response.sendError(502);
-			} finally {
 			}
 			if (modo != 3) {
 				try {

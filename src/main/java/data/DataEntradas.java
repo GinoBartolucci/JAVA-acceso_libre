@@ -64,6 +64,58 @@ public class DataEntradas {
         }
         return entrada;
     }
+    public Entrada scanearEntrada(Entrada searchEntrada) throws SQLException, ClassNotFoundException {
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+        Entrada entrada = null;
+        try{
+            stmt = DbConnector.getInstancia().getConn()
+                    .prepareStatement("SELECT * FROM entradas WHERE documento = ? AND codigo = ?");
+            stmt.setString(1, searchEntrada.getDocumento());
+            stmt.setString(2, searchEntrada.getCodigo());
+            rs = stmt.executeQuery();
+            if(rs != null && rs.next()){
+                entrada = new Entrada(rs.getInt("asistente_id"), rs.getInt("show_id"), rs.getString("codigo"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("tipo_doc"), rs.getString("documento"), rs.getBoolean("validez") );
+            }
+        }catch (SQLException e) {
+            throw e;
+        }finally {
+            try{
+                if(rs != null) rs.close();
+                if(stmt != null) stmt.close();
+                DbConnector.getInstancia().releaseConn();
+            }catch (Exception e) {
+                throw e;
+            }
+        }
+        return entrada;
+    }
+    
+    public Entrada codigoExist(Entrada searchEntrada) throws SQLException, ClassNotFoundException {
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+        Entrada entrada = null;
+        try{
+            stmt = DbConnector.getInstancia().getConn()
+                    .prepareStatement("SELECT * FROM entradas WHERE codigo = ?");
+            stmt.setString(1, searchEntrada.getCodigo());
+            rs = stmt.executeQuery();
+            if(rs != null && rs.next()){
+                entrada = new Entrada(rs.getInt("asistente_id"), rs.getInt("show_id"), rs.getString("codigo"), rs.getString("nombre"), rs.getString("apellido"), rs.getString("tipo_doc"), rs.getString("documento"), rs.getBoolean("validez") );
+            }
+        }catch (SQLException e) {
+            throw e;
+        }finally {
+            try{
+                if(rs != null) rs.close();
+                if(stmt != null) stmt.close();
+                DbConnector.getInstancia().releaseConn();
+            }catch (Exception e) {
+                throw e;
+            }
+        }
+        return entrada;
+    }
     
     public LinkedList<Entrada> findByAsistenteId(Entrada searchEntrada) throws SQLException, ClassNotFoundException {
         ResultSet rs = null;
@@ -145,18 +197,19 @@ public class DataEntradas {
         try{
             stmt = DbConnector.getInstancia().getConn()
                     .prepareStatement(
-                            "UPDATE entradas SET asistente_id = ?, show_id = ?, codigo = ?, nombre = ?,"
-                            + "apellido = ?,tipo_doc = ?, documento = ?, validez = ?  WHERE id = ?"
+                            "UPDATE entradas SET codigo = ?, nombre = ?,"
+                            + "apellido = ?,tipo_doc = ?, documento = ?, validez = ?  WHERE asistente_id = ? AND show_id = ?"
                     );
-            stmt.setInt(1, updateEntrada.getAsistente_id());
-            stmt.setInt(2, updateEntrada.getShow_id());
-            stmt.setString(3, updateEntrada.getCodigo());
-            stmt.setString(4, updateEntrada.getNombre());
-            stmt.setString(5, updateEntrada.getApellido());
-            stmt.setString(6, updateEntrada.getTipo_doc());
-            stmt.setString(7, updateEntrada.getDocumento());
-            stmt.setBoolean(8, updateEntrada.isValidez());
-            stmt.setInt(9, updateEntrada.getId());
+            
+            stmt.setString(1, updateEntrada.getCodigo());
+            stmt.setString(2, updateEntrada.getNombre());
+            stmt.setString(3, updateEntrada.getApellido());
+            stmt.setString(4, updateEntrada.getTipo_doc());
+            stmt.setString(5, updateEntrada.getDocumento());
+            stmt.setBoolean(6, updateEntrada.isValidez());
+            stmt.setInt(7, updateEntrada.getAsistente_id());
+            stmt.setInt(8, updateEntrada.getShow_id());
+            
             stmt.executeUpdate();
         }catch (SQLException e) {
             throw e;

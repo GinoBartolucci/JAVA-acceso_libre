@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import logic.LogicProvincia;
+import utils.Validaciones;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -63,7 +64,8 @@ public class ABMCiudad extends HttpServlet {
 					break;
 				}
 			}
-			c.setNombre((request.getParameter("nombre") == null) ? c.getNombre(): request.getParameter("nombre"));
+			
+			c.setNombre((request.getParameter("nombre") == null) ? c.getNombre(): Validaciones.validateNombre(request.getParameter("nombre")));
 			int idProvincia = Integer.parseInt(request.getParameter("provincia_id"));//Parametros que se pueden haber modificado en jsp de modificar. O en el form de crear
 			for(Provincia pro : provincias) {
 				if(pro.getId() == idProvincia) {
@@ -75,8 +77,13 @@ public class ABMCiudad extends HttpServlet {
 			try {
 				switch (modo) {
 					case 1:
-						lc.create(c);	
-						response.setStatus(201);
+						if (c.getNombre() != null) {
+							lc.create(c);	
+							response.setStatus(201);
+						}else {
+							request.setAttribute("error", "Nombre inválido.");
+							request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+						}
 						break;
 					case 2:
 						lc.delete(c);	
@@ -87,8 +94,13 @@ public class ABMCiudad extends HttpServlet {
 						request.getRequestDispatcher("WEB-INF\\MCiudad.jsp").forward(request, response);
 						break;
 					case 4:
-						lc.update(c);
-						response.setStatus(200);
+						if (c.getNombre() != null) {
+							lc.update(c);	
+							response.setStatus(201);
+						}else {
+							request.setAttribute("error", "Nombre inválido.");
+							request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+						}
 						break;
 				}
 			}
