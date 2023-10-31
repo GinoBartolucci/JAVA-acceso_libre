@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.LinkedList;
 
 import entities.Entrada;
+import entities.Show;
 
 public class DataEntradas {
 	 public LinkedList<Entrada> getAll() throws SQLException, ClassNotFoundException  {
@@ -89,6 +90,33 @@ public class DataEntradas {
             }
         }
         return entrada;
+    }
+    public int countEntriesByShowId(Show show) throws SQLException, ClassNotFoundException {
+        ResultSet rs = null;
+        PreparedStatement stmt = null;
+        int entryCount = 0;
+
+        try {
+            stmt = DbConnector.getInstancia().getConn()
+                    .prepareStatement("SELECT COUNT(*) as entryCount FROM entradas WHERE show_id = ?");
+            stmt.setInt(1, show.getId());
+            rs = stmt.executeQuery();
+
+            if (rs != null && rs.next()) {
+                entryCount = rs.getInt("entryCount");
+            }
+        } catch (SQLException e) {
+            throw e;
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (stmt != null) stmt.close();
+                DbConnector.getInstancia().releaseConn();
+            } catch (Exception e) {
+                throw e;
+            }
+        }   
+        return entryCount;
     }
     
     public Entrada codigoExist(Entrada searchEntrada) throws SQLException, ClassNotFoundException {

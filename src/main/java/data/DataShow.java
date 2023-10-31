@@ -132,7 +132,6 @@ public class DataShow {
 	                throw e;
 	            }
 	        }
-	        //return p;
 	    }
 
 	    public void create(String nombre, Float precio, String fecha, int lugarId, int productoraId, int artistaId) throws SQLException, ClassNotFoundException  {

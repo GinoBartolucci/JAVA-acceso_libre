@@ -71,6 +71,7 @@ public class ABMEntrada extends HttpServlet {
 		// Listas de elementos necesarios para mostrar y crear el objeto
 		HttpSession session = request.getSession();
 		LogicEntrada le = new LogicEntrada();
+		LogicShow ls = new LogicShow();
 
 		int modo = (request.getParameter("modo") == null) ? 0 : Integer.parseInt(request.getParameter("modo"));
 
@@ -86,38 +87,49 @@ public class ABMEntrada extends HttpServlet {
 
 			switch (modo) {
 			case 1:
-				asistente_id = Validaciones.validateInt(request.getParameter("asistente_id"));
+				Show show =new Show();
 				show_id = Validaciones.validateInt(request.getParameter("show_id"));
-				codigo = "" + Validaciones.generateRandomNumber();
-				nombre = Validaciones.validateNombre(request.getParameter("nombre"));
-				apellido = Validaciones.validateNombre(request.getParameter("apellido"));
-				tipo_doc = Validaciones.validateTipoDoc(request.getParameter("tipo_doc"));
-				if (tipo_doc != null) {
-					documento = Validaciones.validateDocumento(request.getParameter("documento"), tipo_doc);
-				} else
-					documento = null;
-				validez = true;
+				show.setId(show_id);
+				ls.findById(show);
+				int cantidad_entradas = le.countEntriesByShowId(show);
+				if (show.getLugar().getCapacidad() > cantidad_entradas) {
+					asistente_id = Validaciones.validateInt(request.getParameter("asistente_id"));
+					codigo = "" + Validaciones.generateRandomNumber();
+					nombre = Validaciones.validateNombre(request.getParameter("nombre"));
+					apellido = Validaciones.validateNombre(request.getParameter("apellido"));
+					tipo_doc = Validaciones.validateTipoDoc(request.getParameter("tipo_doc"));
+					if (tipo_doc != null) {
+						documento = Validaciones.validateDocumento(request.getParameter("documento"), tipo_doc);
+					} else
+						documento = null;
+					validez = true;
 
-				if (asistente_id != null && show_id != null && nombre != null && apellido != null && tipo_doc != null
-						&& documento != null) {
+					if (asistente_id != null && show_id != null && nombre != null && apellido != null && tipo_doc != null
+							&& documento != null) {
 
-					Entrada entrada = new Entrada(asistente_id, show_id, codigo, nombre, apellido, tipo_doc, documento,
-							validez);
-					if (le.findById(entrada) == null) {
-						
-						le.create(entrada);
-						response.setStatus(201);
-						request.getRequestDispatcher("WEB-INF\\HomeAsistente.jsp").forward(request, response);
-					}
-					else {
-						request.setAttribute("error", "Ya posee esta entrada.");
+						Entrada entrada = new Entrada(asistente_id, show_id, codigo, nombre, apellido, tipo_doc, documento,
+								validez);
+						if (le.findById(entrada) == null) {
+							
+							le.create(entrada);
+							response.setStatus(201);
+							request.getRequestDispatcher("WEB-INF\\HomeAsistente.jsp").forward(request, response);
+						}
+						else {
+							request.setAttribute("error", "Ya posee esta entrada.");
+							request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+						}
+
+					} else {
+						request.setAttribute("error", "Uno de los valores es incorrecto.");
 						request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
 					}
-
-				} else {
-					request.setAttribute("error", "Uno de los valores es incorrecto.");
+				}
+				else {
+					request.setAttribute("error", "No quedan más entradas para el show.");
 					request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
 				}
+				
 				break;
 			case 2:
 				asistente_id = (int) session.getAttribute("id");

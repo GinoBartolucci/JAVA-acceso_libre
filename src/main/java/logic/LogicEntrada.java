@@ -1,6 +1,7 @@
 package logic;
 import data.DataEntradas;
 import entities.Entrada;
+import entities.Show;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -21,6 +22,9 @@ public class LogicEntrada {
   }
   public Entrada scanearEntrada(Entrada searchEntrada) throws SQLException, ClassNotFoundException {
 	  return de.scanearEntrada(searchEntrada);
+  }
+  public int countEntriesByShowId(Show show) throws SQLException, ClassNotFoundException {
+	  return de.countEntriesByShowId(show);
   }
   public boolean codigoExist(Entrada searchEntrada) throws SQLException, ClassNotFoundException {
 	  if ( de.codigoExist(searchEntrada) == null ) return false;
