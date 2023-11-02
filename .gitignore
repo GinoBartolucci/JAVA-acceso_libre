@@ -5,6 +5,7 @@ out/
 
 ### Eclipse ###
 DbConnector.java
+.\src\main\java\data\DbConnector.java
 /.classpath
 .classpath
 .apt_generated
