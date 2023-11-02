@@ -4,7 +4,7 @@ out/
 !**/src/test/**/out/
 
 ### Eclipse ###
-src/main/java/data/DbConnector.java
+DbConnector.java
 /.classpath
 .classpath
 .apt_generated
