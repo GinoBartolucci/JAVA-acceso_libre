@@ -73,30 +73,47 @@ public class ABMLugar extends HttpServlet {
 			}
 			lugar.setNombre((request.getParameter("nombre") == null) ? lugar.getNombre(): Validaciones.validateNombre(request.getParameter("nombre")));
 			lugar.setDireccion((request.getParameter("direccion") == null) ? lugar.getDireccion(): request.getParameter("direccion"));
-			lugar.setCapacidad((request.getParameter("capacidad") == null) ? lugar.getCapacidad(): Validaciones.validateInt(request.getParameter("capacidad")));
-			int idCiudad = (request.getParameter("ciudad_id") == null) ? Integer.parseInt(request.getParameter("ciudad_id_hidden")): Integer.parseInt(request.getParameter("ciudad_id"));//Parametros que se pueden haber modificado en jsp de modificar. O en el form de crear		
-			for(Ciudad c : ciudades) {
-				if(c.getId() == idCiudad) {
-					lugar.setCiudad(c);
-					break;
+			if ( request.getParameter("capacidad") == null ) {
+				lugar.setCapacidad(lugar.getCapacidad());
+			}
+			else {
+				if (Validaciones.validateInt(request.getParameter("capacidad")) != null) {
+					lugar.setCapacidad( Validaciones.validateInt(request.getParameter("capacidad")));
 				}
+				else {lugar.setCapacidad(-1);}
+			}
+			try {
+				int idCiudad = (request.getParameter("ciudad_id") == null) ? Integer.parseInt(request.getParameter("ciudad_id_hidden")): Integer.parseInt(request.getParameter("ciudad_id"));
+				for(Ciudad c : ciudades) {
+					if(c.getId() == idCiudad) {
+						lugar.setCiudad(c);
+						break;
+					}
+				}
+			}catch ( NumberFormatException e) {
+				request.setAttribute("error", "Datos faltantes o invalidos.");
+				request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
 			}
 			request.setAttribute("lugar", lugar);
 			try {
 				switch (modo) {
 					case 1:
-						if (lugar.getNombre() != null) {
+						if (lugar.getNombre() != null && lugar.getDireccion() != null && lugar.getCiudad() != null && lugar.getCapacidad() != -1) {
 							ll.create(lugar);	
 							response.setStatus(201);
 						}
 						else {
-							request.setAttribute("error", "Nombre inválido.");
+							request.setAttribute("error", "Datos faltantes o invalidos.");
 							request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
 						}
 						break;
 					case 2:
-						ll.delete(lugar);	
-						response.setStatus(200);
+						try {
+							ll.delete(lugar);	
+							}catch (ClassNotFoundException | SQLException e){
+								request.setAttribute("error", "No puede borrar lugar con shows asignados.");
+								request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+							}
 						break;
 					case 3:
 						response.setStatus(307);
