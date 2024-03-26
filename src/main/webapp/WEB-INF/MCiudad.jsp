@@ -18,7 +18,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-			<h1>Administrar Ciudades</h1>		
+			<h1><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home</a> Administrar Ciudades</h1>		
 			<hr>
 			<h4>Editar provincia</h4>
 			 <form class="row" action="abmciudad" method="post">

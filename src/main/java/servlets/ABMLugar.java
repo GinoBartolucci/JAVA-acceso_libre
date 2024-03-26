@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import logic.LogicLugar;
 import logic.LogicCiudad;
 import logic.LogicProvincia;
@@ -37,7 +38,21 @@ public class ABMLugar extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		try {
+			HttpSession session = request.getSession();
+			if (!((boolean) session.getAttribute("productora"))) {
+				request.getRequestDispatcher("index.jsp");
+			}
+			else if (((boolean) session.getAttribute("productora"))) {
+				request.getRequestDispatcher("WEB-INF\\HomeProductora.jsp");
+			}
+		}
+		catch(Error e) {
+			request.getRequestDispatcher("index.jsp");
+		}
+		
+		
+		
 	}
 
 	/**

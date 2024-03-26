@@ -16,7 +16,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-			<h1>Administrar Artistas</h1>		
+			<h1><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home</a> Administrar Artistas</h1>		
 			<hr>
 			<h4>Editar Artista</h4>
 			 <form class="row" action="abmartista" method="post">

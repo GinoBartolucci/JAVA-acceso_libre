@@ -17,7 +17,14 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-			<h1>Administrar Artistas</h1>		
+				<div class="row justify-content-evenly">
+				    <div class="col-4">
+				      <h1>Administrar Artistas</h1>
+				    </div>
+				    <div class="col-4">
+				      <h3><%=session.getAttribute("nombre_usuario") %>></h3>
+				    </div>
+				 </div>
 			<hr>
 			<h4>Nuevo Artista</h4>
 			 <form id="artista_form" class="row" action="abmartista" method="post">

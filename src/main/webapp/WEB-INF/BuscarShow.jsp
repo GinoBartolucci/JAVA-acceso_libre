@@ -30,7 +30,7 @@ LinkedList<Provincia> listaP = (LinkedList<Provincia>) request.getAttribute("pro
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-				<h1>Buscar Shows</h1>
+				<h1><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home</a> Buscar Shows</h1>
 				<hr>
 				<form id="lugar_form" class="row" action="abmshow" method="post">
 					<div class="col-auto">

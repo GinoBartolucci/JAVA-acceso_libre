@@ -51,6 +51,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <h3 class="display-4  fw-bold text-center mb-4">
+								<a href="javascript:history.back()" class="text-decoration-none"> Volver Atrás</a>
+							</h3>
                             </form>
                         </div>
                     </div>
