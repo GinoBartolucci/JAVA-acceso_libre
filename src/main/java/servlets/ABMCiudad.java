@@ -86,8 +86,13 @@ public class ABMCiudad extends HttpServlet {
 						}
 						break;
 					case 2:
-						lc.delete(c);	
-						response.setStatus(200);
+						try {
+							lc.delete(c);	
+							response.setStatus(200);
+							}catch (ClassNotFoundException | SQLException e){
+								request.setAttribute("error", "No puede borrar una ciudad con lugares asignados.");
+								request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+							}
 						break;
 					case 3:
 						response.setStatus(307);
@@ -112,7 +117,8 @@ public class ABMCiudad extends HttpServlet {
 					ciudades = lc.getAll();
 					request.setAttribute("ciudades", ciudades);
 				}catch (ClassNotFoundException | SQLException e) {
-					response.sendError(502);
+					request.setAttribute("error", "No hay ciudades disponibles.");
+					request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
 				}
 				request.getRequestDispatcher("WEB-INF\\ABMCiudad.jsp").forward(request, response);
 			}

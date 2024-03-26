@@ -141,8 +141,14 @@ public class ABMShow extends HttpServlet {
 
 					break;
 				case 2:
+					try {
 					ls.delete(s.getId());
 					response.setStatus(200);
+					}catch (ClassNotFoundException | SQLException e){
+						request.setAttribute("error", "No puede borrar un show para el cual ya hay entradas vendidas!.");
+						request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+					}
+					
 					break;
 				case 3:
 					response.setStatus(307);
@@ -179,7 +185,8 @@ public class ABMShow extends HttpServlet {
 					break;
 				}
 			} catch (ClassNotFoundException | SQLException e) {
-				response.sendError(502);
+				request.setAttribute("error", "Ups, algo salio mal...");
+				request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
 			}
 			if (modo != 3) {
 				try {

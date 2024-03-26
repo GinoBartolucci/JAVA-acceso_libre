@@ -80,8 +80,12 @@ public class ABMProvincia extends HttpServlet {
 						}
 						break;
 					case 2:
-						lp.delete(p);
-						response.setStatus(200);
+						try {
+							lp.delete(p);
+							}catch (ClassNotFoundException | SQLException e){
+								request.setAttribute("error", "No puede borrar provincia con ciudades asignadas.");
+								request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+							}
 						break;
 					case 3:
 						response.setStatus(307);
