@@ -81,8 +81,12 @@ public class ABMArtista extends HttpServlet {
 
 						break;
 					case 2:
-						la.delete(a);
-						response.setStatus(200);
+						try {
+							la.delete(a);
+							}catch (ClassNotFoundException | SQLException e){
+								request.setAttribute("error", "No puede borrar artista con shows asignados.");
+								request.getRequestDispatcher("WEB-INF\\Error.jsp").forward(request, response);
+							}
 						break;
 					case 3:
 						response.setStatus(307);
