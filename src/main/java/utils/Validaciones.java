@@ -44,7 +44,7 @@ public class Validaciones {
 	}
 	
 	public static String validateNombre(String str) {
-	    if (str == null || str.length() > 200 || !str.matches("^[a-zA-Z]+$")) {
+	    if (str == null || str.length() > 200 || !str.matches("^[a-zA-Z ]+$")) {
 	        return null; 
 	    }
 	    return str; 
