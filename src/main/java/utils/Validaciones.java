@@ -33,7 +33,7 @@ public class Validaciones {
 	}
 	
 	public static String validateDocumento(String str, String tipo) {
-	    if (( tipo.equals("DNI") &&  str.length() == 8 ) || ((tipo.equals("CUIL") || tipo.equals("CUIT")) && str.length() == 11)) {
+	    if (( tipo.equals("DNI") && (str.length() > 6 &&  str.length() < 10 )) || ((tipo.equals("CUIL") || tipo.equals("CUIT")) && str.length() == 11)) {
 		    try {
 		        return str; 
 		    } catch (NumberFormatException e) {

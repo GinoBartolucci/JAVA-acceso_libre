@@ -21,7 +21,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-			<h1>Administrar Lugares</h1>		
+			<h1><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home</a> Administrar Lugares</h1>		
 			<hr>
 			<h4>Editar lugar</h4>
 			 <form id="lugar_form" class="row" action="abmlugar" method="post">

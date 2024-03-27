@@ -17,7 +17,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
-			<h1>Administrar Provincias</h1>		
+			<h1><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home</a> Administrar Provincias</h1>		
 			<hr>
 			<h4>Nueva provincia</h4>
 			 <form id="provincia_form" class="row" action="abmprovincia" method="post">

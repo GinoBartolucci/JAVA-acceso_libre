@@ -26,7 +26,11 @@
 							<h3 class="display-4  fw-bold text-center mb-4">
 								<%=error%>
 							</h3>
+							<h3 class="display-4  fw-bold text-center mb-4">
+								<a href="javascript:history.back()" class="text-decoration-none"> Volver Atrás</a>
+							</h3>
 						</div>
+						
 					</div>
 					<div class="text-center mt-5 text-muted">Copyright &copy;
 						2023 &mdash; Gino bartolucci, Joaquín Betes</div>

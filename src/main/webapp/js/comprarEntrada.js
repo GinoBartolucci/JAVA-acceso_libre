@@ -15,7 +15,7 @@ formulario.addEventListener("submit", function(event) {
         event.preventDefault();
         alert("Por favor, complete todos los campos requeridos.");
     }
-    else if (documentoI.length < 8){
+    else if (documentoI.length < 7){
 		event.preventDefault();
         alert("Documento inválido");
 	}
