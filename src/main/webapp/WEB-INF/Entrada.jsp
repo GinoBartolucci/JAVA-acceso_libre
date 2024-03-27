@@ -32,6 +32,10 @@
 </head>
 
 <body>
+	<div class="d-flex justify-content-between">
+		<h2><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home </a></h2>
+		<h2><a href="/JAVA-acceso_libre/logout" class="text-decoration-none text-danger">Logout</a></h2>
+	</div>
     <section class="h-100">
         <div class="container h-100 mt-4">
             <div class="row justify-content-sm-center h-100">
@@ -51,8 +55,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <h3 class="display-4  fw-bold text-center mb-4">
-								<a href="javascript:history.back()" class="text-decoration-none"> Volver Atrás</a>
+							<h3 class="display-4  fw-bold text-center mb-4">
+							    <a href="javascript:history.back()" class="text-decoration-none small"> Volver Atrás</a>
 							</h3>
                             </form>
                         </div>

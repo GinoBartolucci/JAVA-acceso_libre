@@ -14,13 +14,17 @@
 
 </head>
 <body>
+	<div class="d-flex justify-content-between">
+		<h2><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home </a></h2>
+		<h2><a href="/JAVA-acceso_libre/logout" class="text-decoration-none text-danger">Logout</a></h2>
+	</div>
 	<section class="h-100">
 		<div class="container h-100 mt-4">
 			<div class="row justify-content-sm-center h-100">
 				<div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
 					<div class="card shadow-lg">
 						<div class="card-body p-5">
-							<h1 class="display-4 card-title fw-bold text-center mb-4"><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home</a>Scanear
+							<h1 class="display-4 card-title fw-bold text-center mb-4">Scanear
 								Entrada</h1>
 							<form action="abmentrada" method="post" class="needs-validation" novalidate="" autocomplete="off">
 								<div class="mb-3">

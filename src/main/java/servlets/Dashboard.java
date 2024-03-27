@@ -13,7 +13,7 @@ public class Dashboard extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("email");
-        
+     
         // Verificar si el usuario ha iniciado sesión
         if (email != null) {
         	if((boolean)session.getAttribute("productora")) {

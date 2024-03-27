@@ -15,10 +15,13 @@
 	%>
 </head>
 <body>
+	<div class="d-flex justify-content-between">
+			<h2><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home </a></h2>
+			<h2><a href="/JAVA-acceso_libre/logout" class="text-decoration-none text-danger">Logout</a></h2>
+	</div>
 	<div class="container">
 		<div class="row">
-			<div class="col-12">
-			<h1><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home</a> Comprar entrada</h1>		
+			<h1> Comprar entrada</h1>		
 			<hr>
 			<h4>Datos Entrada</h4>
 			 <form id="show_form" class="row" action="abmentrada" method="post">

@@ -22,14 +22,16 @@ LinkedList<Entrada> listaE = (LinkedList<Entrada>) request.getAttribute("entrada
 %>
 </head>
 <body>
+	<div class="d-flex justify-content-between">
+		<h2><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home </a></h2>
+		<h2><a href="/JAVA-acceso_libre/logout" class="text-decoration-none text-danger">Logout</a></h2>
+	</div>
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
 				<div class="d-flex justify-content-between align-items-center">
-					<h1><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home</a> Entradas Shows</h1>
 					 <div>
 						 <p><%=session.getAttribute("nombre_usuario") %></p>
-						 <a href="/JAVA-acceso_libre">Logout</a>
 					 </div>
 				</div>				
 				<hr>
