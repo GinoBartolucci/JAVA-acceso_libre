@@ -11,8 +11,10 @@
 </head>
 
 <body>
+<div class="container">
 	<div class="d-flex justify-content-between">
 		<h2><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home </a></h2>
+		<h1>Acceso libre</h1>
 		<h2><a href="/JAVA-acceso_libre/logout" class="text-decoration-none text-danger">Logout</a></h2>
 	</div>
 	<section class="h-100">
@@ -43,7 +45,7 @@
 			</div>
 		</div>
 	</section>
-
+</div>
 	
 </body>
 

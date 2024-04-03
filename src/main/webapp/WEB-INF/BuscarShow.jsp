@@ -26,14 +26,15 @@ LinkedList<Provincia> listaP = (LinkedList<Provincia>) request.getAttribute("pro
 
 %>
 </head>
-<body>
-	<div class="d-flex justify-content-between">
-		<h2><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home </a></h2>
-		<h2><a href="/JAVA-acceso_libre/logout" class="text-decoration-none text-danger">Logout</a></h2>
-	</div>
+<body>	
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
+			<div class="d-flex justify-content-between">
+				<h2><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home </a></h2>
+				<h1>Shows</h1>
+				<h2><a href="/JAVA-acceso_libre/logout" class="text-decoration-none text-danger">Logout</a></h2>
+			</div>
 				<hr>
 				<form id="lugar_form" class="row" action="abmshow" method="post">
 					<div class="col-auto">

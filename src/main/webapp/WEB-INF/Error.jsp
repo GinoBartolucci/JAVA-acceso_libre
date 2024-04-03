@@ -17,6 +17,7 @@
 
 </head>
 <body>
+<div class="container">
 	<div class="d-flex justify-content-between">
 		<h2><a href="/JAVA-acceso_libre/dashboard" class="text-decoration-none"> Home </a></h2>
 		<h2><a href="/JAVA-acceso_libre/logout" class="text-decoration-none text-danger">Logout</a></h2>
@@ -42,5 +43,6 @@
 			</div>
 		</div>
 	</section>
+	</div>
 </body>
 </html>
